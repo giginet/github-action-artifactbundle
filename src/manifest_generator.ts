@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import Executable from './executable.js';
 
 class ManifestGenerator {
@@ -11,7 +10,7 @@ class ManifestGenerator {
           version: version,
           type: "executable",
           variants: executables.map(executable => ({
-            path: path.relative(outputPath, executable.getFilePath()),
+            path: executable.getFilePath(),
             supportedTriples: [executable.getVariant()]
           }))
         }
