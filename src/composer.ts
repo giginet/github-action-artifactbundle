@@ -1,12 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as crypto from 'crypto';
 import Executable from './executable.js';
 import * as os from 'os';
 import ZipArchiver from './archiver.js';
 import ManifestGenerator from './manifest_generator.js';
 
+interface ComposeResult {
+  zipFilePath: string;
+  sha256: string;
+}
+
 class ArtifactBundleComposer {
-  async compose(name: string, artifacts: Executable[]): Promise<string> {
+  async compose(name: string, artifacts: Executable[]): Promise<ComposeResult> {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'artifact-'));
 
     const bundleDir = path.join(tempDir, `${name}.artifactbundle`);
@@ -36,7 +42,17 @@ class ArtifactBundleComposer {
     const zipArchiver = new ZipArchiver();
     const zipFilePath = path.join(tempDir, `${name}.zip`);
     await zipArchiver.archive(bundleDir, zipFilePath);
-    return zipFilePath;
+
+    const sha256 = this.calculateSHA256(zipFilePath);
+
+    return { zipFilePath, sha256 };
+  }
+
+  private calculateSHA256(filePath: string): string {
+    const fileBuffer = fs.readFileSync(filePath);
+    const hashSum = crypto.createHash('sha256');
+    hashSum.update(fileBuffer);
+    return hashSum.digest('hex');
   }
 }
 
