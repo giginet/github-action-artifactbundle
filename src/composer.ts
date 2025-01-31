@@ -2,34 +2,42 @@ import * as fs from 'fs';
 import * as path from 'path';
 import Executable from './executable.js';
 import * as os from 'os';
+import ZipArchiver from './archiver.js';
+import ManifestGenerator from './manifest_generator.js';
 
 class ArtifactBundleComposer {
-  compose(name: string, executables: Executable[]): void {
+  async compose(name: string, artifacts: Executable[]): Promise<string> {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'artifact-'));
 
-      const bundleDir = path.join(tempDir, `\${name}.artifactbundle`);
+    const bundleDir = path.join(tempDir, `${name}.artifactbundle`);
     if (!fs.existsSync(bundleDir)) {
       fs.mkdirSync(bundleDir);
-    
+    }
+
+    const manifestGenerator = new ManifestGenerator();
     const infoPath = path.join(bundleDir, 'info.json');
-    fs.writeFileSync(infoPath, '');
+    manifestGenerator.generate(name, '1.0', artifacts, infoPath);
 
-        const artifactDir = path.join(bundleDir, name);
-      if (!fs.existsSync(artifactDir)) {
-        fs.mkdirSync(artifactDir);
-      }
+    const artifactDir = path.join(bundleDir, name);
+    if (!fs.existsSync(artifactDir)) {
+      fs.mkdirSync(artifactDir);
+    }
 
-      executables.forEach(executable => {
-        const variantDir = path.join(artifactDir, executable.getVariant());
+    artifacts.forEach(artifact => {
+      const variantDir = path.join(artifactDir, artifact.getVariant());
       if (!fs.existsSync(variantDir)) {
         fs.mkdirSync(variantDir, { recursive: true });
       }
 
-        const executablePath = path.join(variantDir, path.basename(executable.getFilePath()));
-      fs.copyFileSync(executable.getFilePath(), executablePath);
+      const executablePath = path.join(variantDir, path.basename(artifact.getFilePath()));
+      fs.copyFileSync(artifact.getFilePath(), executablePath);
     });
+
+    const zipArchiver = new ZipArchiver();
+    const zipFilePath = path.join(tempDir, `${name}.zip`);
+    await zipArchiver.archive(bundleDir, zipFilePath);
+    return zipFilePath;
   }
-}
 }
 
 export default ArtifactBundleComposer;
