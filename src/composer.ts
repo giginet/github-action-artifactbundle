@@ -4,12 +4,10 @@ import Executable from './executable.js';
 import * as os from 'os';
 
 class ArtifactBundleComposer {
-  private tempDir: string = '';
-
   compose(name: string, executables: Executable[]): void {
-    this.tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'artifact-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'artifact-'));
 
-      const bundleDir = path.join(this.tempDir, `\${name}.artifactbundle`);
+      const bundleDir = path.join(tempDir, `\${name}.artifactbundle`);
     if (!fs.existsSync(bundleDir)) {
       fs.mkdirSync(bundleDir);
     
