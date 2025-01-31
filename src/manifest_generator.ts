@@ -1,18 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import Artifact from './artifact.ts';
+import Executable from './executable.js';
 
 class ManifestGenerator {
-  generate(identifier: string, version: string, artifacts: Artifact[], outputPath: string): void {
+  generate(identifier: string, version: string, executables: Executable[], outputPath: string): void {
     const manifest = {
       schemaVersion: "1.0",
       artifacts: {
         [identifier]: {
           version: version,
           type: "executable",
-          variants: artifacts.map(artifact => ({
-            path: path.relative(outputPath, artifact.getFilePath()),
-            supportedTriples: [artifact.getTriple()]
+          variants: executables.map(executable => ({
+            path: path.relative(outputPath, executable.getFilePath()),
+            supportedTriples: [executable.getVariant()]
           }))
         }
       }
