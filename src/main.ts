@@ -10,6 +10,10 @@ import ArtifactBundleComposer from './composer.js'
 export async function run(): Promise<void> {
   try {
     const artifactName: string = core.getInput('artifact_name')
+    if (!artifactName) {
+      core.setFailed('artifact_name is required')
+      return
+    }
     const version: string = core.getInput('version')
     const packagePath: string = core.getInput('package_path')
 

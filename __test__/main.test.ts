@@ -98,4 +98,22 @@ describe('main', () => {
     expect(core.setFailed).toHaveBeenCalledWith('No executables found');
     expect(core.setOutput).not.toHaveBeenCalled();
   });
+
+  it('should fail when artifact_name is not provided', async () => {
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'version':
+          return '1.0.0';
+        case 'package_path':
+          return fixturesPath;
+        default:
+          return '';
+      }
+    });
+
+    await run();
+
+    expect(core.setFailed).toHaveBeenCalledWith('artifact_name is required');
+    expect(core.setOutput).not.toHaveBeenCalled();
+  });
 });
