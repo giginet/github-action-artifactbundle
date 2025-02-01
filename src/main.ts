@@ -1,4 +1,4 @@
-import core from '@actions/core'
+import * as core from '@actions/core'
 import * as path from 'path'
 import ExecutableCollector from './collector.js'
 import ArtifactBundleComposer from './composer.js'
@@ -14,6 +14,7 @@ export async function run(): Promise<void> {
     const executableName: string = core.getInput('executable-name')
     const version: string = core.getInput('version')
     const packagePath: string = core.getInput('package-path')
+    console.log(packagePath);
 
     core.debug(`Collecting executable: ${executableName} (version: ${version}) from ${packagePath}`)
 
