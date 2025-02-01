@@ -33,7 +33,7 @@ describe('main', () => {
 
     await run();
 
-    const expectedHash = '46fe874020c26594bdd20ccc83a761ff70143a965962f0ee079d35b6ddc9e306';
+    const expectedHash = '09d53cf9767b76b3469a03210d322c7b0b5456506f746e675568a62ff690cb6d';
 
     // Verify outputs were set
     expect(core.setOutput).toHaveBeenCalledWith('artifact_path', '.artifacts/myexecutable.artifactbundle.zip');

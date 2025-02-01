@@ -1,4 +1,5 @@
 import fs from 'fs';
+import Executable from './executable.js';
 
 class ExecutableCollector {
   private executableName: string;
@@ -16,15 +17,15 @@ class ExecutableCollector {
     ];
   }
 
-  collect(configuration: string = 'release'): string[] {
-    const existingPaths: string[] = [];
-    for (const dir of this.triples) {
-      const path = `${this.packagePath}/.build/${dir}/${configuration}/${this.executableName}`;
+  collect(configuration: string = 'release'): Executable[] {
+    const executables: Executable[] = [];
+    for (const triple of this.triples) {
+      const path = `${this.packagePath}/.build/${triple}/${configuration}/${this.executableName}`;
       if (fs.existsSync(path)) {
-        existingPaths.push(path);
+        executables.push(new Executable(path, triple));
       }
     }
-    return existingPaths;
+    return executables;
   }
 }
 

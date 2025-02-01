@@ -1,8 +1,6 @@
 import * as core from '@actions/core'
-import * as path from 'path'
 import ExecutableCollector from './collector.js'
 import ArtifactBundleComposer from './composer.js'
-import Executable from './executable.js'
 
 /**
  * The main function for the action.
@@ -18,20 +16,14 @@ export async function run(): Promise<void> {
     core.debug(`Collecting executable: ${executableName} (version: ${version}) from ${packagePath}`)
 
     const collector = new ExecutableCollector(executableName, packagePath)
-    const paths = collector.collect()
+    const executables = collector.collect()
 
-    if (paths.length === 0) {
+    if (executables.length === 0) {
       core.setFailed('No executables found')
       return
     }
 
-    core.debug(`Found executables: ${paths.join(', ')}`)
-
-    // Create Executable objects
-    const executables = paths.map(filePath => {
-      const variant = path.dirname(filePath).split('/')[1] // Get platform from .build/{platform}/release/...
-      return new Executable(filePath, variant)
-    })
+    core.debug(`Found executables: ${executables.map(e => e.getFilePath()).join(', ')}`)
 
     // Create artifact bundle
     const composer = new ArtifactBundleComposer()
