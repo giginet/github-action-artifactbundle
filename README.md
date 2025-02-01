@@ -54,16 +54,15 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-> [!WARNING]
-> This action is only available on macOS runner.
+> [!WARNING] This action is only available on macOS runner.
 
 ### Inputs
 
-| Required | Key             | Description                       | Default Value                      |
-| -------- | --------------- | --------------------------------- | ---------------------------------- |
-| ✅       | `artifact_name` | Name of the executable to collect |                                    |
+| Required | Key             | Description                       | Default Value                                                 |
+| -------- | --------------- | --------------------------------- | ------------------------------------------------------------- |
+| ✅       | `artifact_name` | Name of the executable to collect |                                                               |
 |          | `version`       | Version of the artifact           | `${{ github.event.release.tag_name \| ${{ github.ref_name }}` |
-|          | `package_path`  | Path to the package directory     | ./                                 |
+|          | `package_path`  | Path to the package directory     | ./                                                            |
 
 ### Action Outputs
 
@@ -75,7 +74,7 @@ jobs:
 
 ## Build Linux Binary
 
-The Swift build system supports cross-compilation. If you want to make a Linux
+The Swift compiler supports cross-compilation. If you want to make a Linux
 binary, you can refer the following steps.
 
 ```yaml
