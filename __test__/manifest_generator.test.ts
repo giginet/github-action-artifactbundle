@@ -10,8 +10,8 @@ describe('ManifestGenerator', () => {
   const identifier = 'test-artifact';
   const version = '1.0.0';
   const artifacts = [
-    new Executable('./path/to/mytool', 'arm64-apple-macosx'),
-    new Executable('./path/to/mytool', 'x86_64-apple-macosx'),
+    new Executable('./package/path/to/mytool', 'arm64-apple-macosx'),
+    new Executable('./package/path/to/mytool', 'x86_64-apple-macosx'),
   ];
 
   beforeAll(() => {
@@ -28,7 +28,7 @@ describe('ManifestGenerator', () => {
 
   it('should generate a valid manifest JSON file', () => {
     const manifestGenerator = new ManifestGenerator();
-    manifestGenerator.generate(identifier, version, artifacts, outputPath);
+    manifestGenerator.generate(identifier, version, './package', artifacts, outputPath);
 
     const manifestContent = fs.readFileSync(outputPath, 'utf-8');
     const manifest = JSON.parse(manifestContent);
@@ -38,9 +38,9 @@ describe('ManifestGenerator', () => {
     expect(manifest.artifacts[identifier].version).toBe(version);
     expect(manifest.artifacts[identifier].type).toBe('executable');
     expect(manifest.artifacts[identifier].variants.length).toBe(2);
-    expect(manifest.artifacts[identifier].variants[0].path).toBe('./path/to/mytool');
+    expect(manifest.artifacts[identifier].variants[0].path).toBe('path/to/mytool');
     expect(manifest.artifacts[identifier].variants[0].supportedTriples).toContain('arm64-apple-macosx');
-    expect(manifest.artifacts[identifier].variants[1].path).toBe('./path/to/mytool');
+    expect(manifest.artifacts[identifier].variants[1].path).toBe('path/to/mytool');
     expect(manifest.artifacts[identifier].variants[1].supportedTriples).toContain('x86_64-apple-macosx');
   });
 });

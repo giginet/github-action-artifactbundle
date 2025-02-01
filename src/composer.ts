@@ -11,6 +11,12 @@ interface ComposeResult {
 }
 
 class ArtifactBundleComposer {
+  packagePath: string;
+
+  constructor(packagePath: string) {
+    this.packagePath = packagePath;
+  }
+
   async compose(name: string, artifacts: Executable[]): Promise<ComposeResult> {
     if (!name) {
       throw new Error('name must not be empty');
@@ -24,7 +30,7 @@ class ArtifactBundleComposer {
 
     const manifestGenerator = new ManifestGenerator();
     const infoPath = path.join(bundleDir, 'info.json');
-    manifestGenerator.generate(name, '1.0', artifacts, infoPath);
+    manifestGenerator.generate(name, '1.0', this.packagePath, artifacts, infoPath);
 
     const artifactDir = path.join(bundleDir, name);
     if (!fs.existsSync(artifactDir)) {

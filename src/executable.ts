@@ -1,3 +1,5 @@
+import path from 'path';
+
 class Executable {
   private filePath: string;
   private variant: string;
@@ -13,6 +15,10 @@ class Executable {
 
   getVariant(): string {
     return this.variant;
+  }
+
+  getRelativePath(packagePath: string): string {
+    return path.relative(packagePath, this.filePath);
   }
 }
 

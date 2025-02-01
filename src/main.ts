@@ -26,7 +26,7 @@ export async function run(): Promise<void> {
     core.debug(`Found executables: ${executables.map(e => e.getFilePath()).join(', ')}`)
 
     // Create artifact bundle
-    const composer = new ArtifactBundleComposer()
+    const composer = new ArtifactBundleComposer(packagePath)
     const result = await composer.compose(executableName, executables)
 
     core.debug(`Created artifact bundle: ${result.zipFilePath}`)
