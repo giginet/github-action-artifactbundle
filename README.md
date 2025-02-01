@@ -6,7 +6,7 @@
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
 A GitHub Action to create a archive in Apple
-[Artifact bundle](https://github.com/swiftlang/swift-evolution/blob/a-12fb99f9a7afed2339526076ed3c3f7f0c8effee/proposals/0305-swiftpm-binary-target-improvements.md#artifact-bundle)
+[Artifact bundle](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0305-swiftpm-binary-target-improvements.md#artifact-bundle)
 format. It's is useful for distributing binaries built from Swift Package for
 Package Plugin or using [nest](https://github.com/mtj0928/nest).
 
