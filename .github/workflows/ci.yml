@@ -63,4 +63,6 @@ jobs:
 
       - name: Print Output
         id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+        run: |
+          echo "${{ steps.test-action.outputs.bundle_path }}"
+          echo "${{ steps.test-action.outputs.bundle_sha256 }}"

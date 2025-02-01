@@ -45,8 +45,8 @@ export async function run(): Promise<void> {
     core.debug(`SHA256: ${result.sha256}`)
 
     // Set outputs
-    core.setOutput('artifact_path', result.zipFilePath)
-    core.setOutput('sha256', result.sha256)
+    core.setOutput('bundle_path', result.zipFilePath)
+    core.setOutput('bundle_sha256', result.sha256)
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

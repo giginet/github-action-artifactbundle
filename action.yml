@@ -13,9 +13,9 @@ inputs:
     required: false
     default: '.'
 outputs:
-  artifact_path:
+  bundle_path:
     description: 'Path to the created artifact bundle zip file'
-  sha256:
+  bundle_sha256:
     description: 'SHA256 hash of the artifact bundle'
 runs:
   using: 'node20'

@@ -44,15 +44,15 @@ describe('main', () => {
     expect(core.setOutput).toHaveBeenCalledWith('sha256', expectedHash)
 
     // Get the artifact path from setOutput calls
-    const artifactPath = core.setOutput.mock.calls.find(
-      (call) => call[0] === 'artifact_path'
+    const zippedBundlePath = core.setOutput.mock.calls.find(
+      (call) => call[0] === 'bundle_path'
     )?.[1] as string
-    expect(artifactPath).toBeDefined()
-    expect(fs.existsSync(artifactPath)).toBeTruthy()
+    expect(zippedBundlePath).toBeDefined()
+    expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
 
     // Get the SHA256 from setOutput calls
     const sha256 = core.setOutput.mock.calls.find(
-      (call) => call[0] === 'sha256'
+      (call) => call[0] === 'bundle_sha256'
     )?.[1]
     expect(sha256).toBeDefined()
 
