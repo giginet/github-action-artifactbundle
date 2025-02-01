@@ -2,10 +2,12 @@ import fs from 'fs';
 
 class ExecutableCollector {
   private executableName: string;
+  private packagePath: string;
   private triples: string[];
 
-  constructor(executableName: string) {
+  constructor(executableName: string, packagePath: string = '.') {
     this.executableName = executableName;
+    this.packagePath = packagePath;
     this.triples = [
       'arm64-apple-macosx',
       'x86_64-apple-macosx',
@@ -17,7 +19,7 @@ class ExecutableCollector {
   collect(configuration: string = 'release'): string[] {
     const existingPaths: string[] = [];
     for (const dir of this.triples) {
-      const path = `.build/${dir}/${configuration}/${this.executableName}`;
+      const path = `${this.packagePath}/.build/${dir}/${configuration}/${this.executableName}`;
       if (fs.existsSync(path)) {
         existingPaths.push(path);
       }

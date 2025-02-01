@@ -1,24 +1,21 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
-
-# Add your action's branding here. This will appear on the GitHub Marketplace.
-branding:
-  icon: heart
-  color: red
-
-# Define your inputs here.
+name: 'Create Artifact Bundle'
+description: 'Create artifact bundle for Swift executables'
 inputs:
-  milliseconds:
-    description: Your input description here
+  executable-name:
+    description: 'Name of the executable to collect'
     required: true
-    default: '1000'
-
-# Define your outputs here.
+  version:
+    description: 'Version of the executable'
+    required: true
+  package-path:
+    description: 'Path to the Swift package directory'
+    required: false
+    default: '.'
 outputs:
-  time:
-    description: Your output description here
-
+  artifact_path:
+    description: 'Path to the created artifact bundle zip file'
+  sha256:
+    description: 'SHA256 hash of the artifact bundle'
 runs:
-  using: node20
-  main: dist/index.js
+  using: 'node20'
+  main: 'dist/index.js'
