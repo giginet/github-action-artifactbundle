@@ -54,16 +54,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-> ![WARNING] 
+> [!WARNING]
 > This action is only available on macOS runner.
 
 ### Inputs
 
 | Required | Key             | Description                       | Default Value                      |
-| -------- | --------------- | --------------------------------- | ---------------------------------- | --- | ------------------- |
+| -------- | --------------- | --------------------------------- | ---------------------------------- |
 | ✅       | `artifact_name` | Name of the executable to collect |                                    |
-|          | `version`       | Version of the artifact           | `${{ github.event.release.tag_name |     | github.ref_name }}` |
-|          | `package_path`  | Path to the package directory     | .                                  |
+|          | `version`       | Version of the artifact           | `${{ github.event.release.tag_name \| ${{ github.ref_name }}` |
+|          | `package_path`  | Path to the package directory     | ./                                 |
 
 ### Action Outputs
 
