@@ -35,21 +35,21 @@ describe('main', () => {
     await run()
 
     // Get the artifact path and SHA256 from setOutput calls
-    const artifactPath = core.setOutput.mock.calls.find(
+    const zippedBundlePath = core.setOutput.mock.calls.find(
       (call) => call[0] === 'bundle_path'
     )?.[1] as string
     const sha256 = core.setOutput.mock.calls.find(
       (call) => call[0] === 'bundle_sha256'
     )?.[1] as string
 
-    expect(artifactPath).toBe('.artifacts/myexecutable.artifactbundle.zip')
+    expect(zippedBundlePath).toBe('.artifacts/myexecutable.artifactbundle.zip')
     expect(sha256).toBeDefined()
 
     // Verify the zip file exists
-    expect(fs.existsSync(artifactPath)).toBeTruthy()
+    expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
 
     // Verify SHA256 matches the calculated hash
-    expect(sha256).toBe(calculateSHA256(artifactPath))
+    expect(sha256).toBe(calculateSHA256(zippedBundlePath))
 
     // Verify the directory structure before zipping
     const bundleName = 'myexecutable.artifactbundle'
