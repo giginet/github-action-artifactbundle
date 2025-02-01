@@ -1,25 +1,25 @@
-import path from 'path';
+import path from 'path'
 
 class Executable {
-  private filePath: string;
-  private variant: string;
+  private filePath: string
+  private variant: string
 
   constructor(filePath: string, variant: string) {
-    this.filePath = filePath;
-    this.variant = variant;
+    this.filePath = filePath
+    this.variant = variant
   }
 
   getFilePath(): string {
-    return this.filePath;
+    return this.filePath
   }
 
   getVariant(): string {
-    return this.variant;
+    return this.variant
   }
 
   getFileName(): string {
-    return path.basename(this.filePath);
+    return path.basename(this.filePath)
   }
 }
 
-export default Executable;
+export default Executable

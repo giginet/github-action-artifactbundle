@@ -21,7 +21,9 @@ export async function run(): Promise<void> {
     }
     const packagePath: string = core.getInput('package_path')
 
-    core.debug(`Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`)
+    core.debug(
+      `Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`
+    )
 
     const collector = new ExecutableCollector(artifactName, packagePath)
     const executables = collector.collect()
@@ -31,7 +33,9 @@ export async function run(): Promise<void> {
       return
     }
 
-    core.debug(`Found executables: ${executables.map(e => e.getFilePath()).join(', ')}`)
+    core.debug(
+      `Found executables: ${executables.map((e) => e.getFilePath()).join(', ')}`
+    )
 
     // Create artifact bundle
     const composer = new ArtifactBundleComposer()
