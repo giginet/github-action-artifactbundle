@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import * as core from '../__fixtures__/core.js'
 
@@ -34,9 +33,11 @@ describe('main', () => {
 
     await run();
 
+    const expectedHash = '46fe874020c26594bdd20ccc83a761ff70143a965962f0ee079d35b6ddc9e306';
+
     // Verify outputs were set
-    expect(core.setOutput).toHaveBeenCalledWith('artifact_path', expect.any(String));
-    expect(core.setOutput).toHaveBeenCalledWith('sha256', expect.any(String));
+    expect(core.setOutput).toHaveBeenCalledWith('artifact_path', '.artifacts/myexecutable.artifactbundle.zip');
+    expect(core.setOutput).toHaveBeenCalledWith('sha256', expectedHash);
 
     // Get the artifact path from setOutput calls
     const artifactPath = core.setOutput.mock.calls
@@ -49,14 +50,8 @@ describe('main', () => {
       .find(call => call[0] === 'sha256')?.[1];
     expect(sha256).toBeDefined();
 
-    // Calculate SHA256 of the generated zip
-    const fileBuffer = fs.readFileSync(artifactPath);
-    const hashSum = crypto.createHash('sha256');
-    hashSum.update(fileBuffer);
-    const calculatedSha256 = hashSum.digest('hex');
-
     // Verify SHA256 matches
-    expect(calculatedSha256).toBe(sha256);
+    expect(sha256).toBe(expectedHash);
   });
 
   it('should fail when no executables are found', async () => {

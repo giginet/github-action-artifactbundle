@@ -42,7 +42,7 @@ class ArtifactBundleComposer {
     });
 
     const zipArchiver = new ZipArchiver();
-    const zipFilePath = path.join(tempDir, `${name}.zip`);
+    const zipFilePath = path.join(tempDir, `${name}.artifactbundle.zip`);
     await zipArchiver.archive(bundleDir, zipFilePath);
 
     const sha256 = this.calculateSHA256(zipFilePath);
