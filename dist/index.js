@@ -27399,10 +27399,6 @@ class ArtifactBundleComposer {
  */
 async function run() {
     try {
-        if (!coreExports.platform.isMacOS) {
-            coreExports.setFailed('This action must be run on macOS');
-            return;
-        }
         const artifactName = coreExports.getInput('artifact_name');
         if (!artifactName) {
             coreExports.setFailed('artifact_name is required');

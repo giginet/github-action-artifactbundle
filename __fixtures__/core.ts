@@ -7,7 +7,4 @@ export const info = jest.fn<typeof core.info>()
 export const getInput = jest.fn<typeof core.getInput>()
 export const setOutput = jest.fn<typeof core.setOutput>()
 export const setFailed = jest.fn<typeof core.setFailed>()
-export const platform = {
-  isMacOS: true
-}
 export const warning = jest.fn<typeof core.warning>()

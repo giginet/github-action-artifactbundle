@@ -1,4 +1,4 @@
-import { getInput, setFailed, setOutput, debug, platform } from '@actions/core'
+import { getInput, setFailed, setOutput, debug } from '@actions/core'
 import ExecutableCollector from './collector.js'
 import ArtifactBundleComposer from './composer.js'
 
@@ -9,11 +9,6 @@ import ArtifactBundleComposer from './composer.js'
  */
 export async function run(): Promise<void> {
   try {
-    if (!platform.isMacOS) {
-      setFailed('This action must be run on macOS')
-      return
-    }
-
     const artifactName: string = getInput('artifact_name')
     if (!artifactName) {
       setFailed('artifact_name is required')

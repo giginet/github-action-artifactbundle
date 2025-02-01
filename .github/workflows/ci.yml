@@ -61,7 +61,7 @@ jobs:
           version: 1.0.0
           package_path: ./__test__/fixtures/myexecutable
         env:
-          RUNNER_OS: macos
+          RUNNER_OS: macOS
 
       - name: Print Output
         id: output

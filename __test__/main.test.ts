@@ -31,7 +31,6 @@ describe('main', () => {
           return ''
       }
     })
-    core.platform.isMacOS = true
 
     await run()
 
@@ -118,19 +117,6 @@ describe('main', () => {
 
     expect(core.setFailed).toHaveBeenCalledWith('artifact_name is required')
     expect(core.setOutput).not.toHaveBeenCalled()
-  })
-
-  it('should fail when not running on macOS', async () => {
-    const originalIsMacOS = core.platform.isMacOS
-    core.platform.isMacOS = false
-    await run()
-
-    expect(core.setFailed).toHaveBeenCalledWith(
-      'This action must be run on macOS'
-    )
-    expect(core.setOutput).not.toHaveBeenCalled()
-
-    core.platform.isMacOS = originalIsMacOS
   })
 
   it('should fail when version is not provided', async () => {
