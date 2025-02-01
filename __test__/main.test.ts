@@ -20,11 +20,11 @@ describe('main', () => {
   it('should create artifact bundle from fixtures', async () => {
     core.getInput.mockImplementation((name: string) => {
       switch (name) {
-        case 'executable-name':
+        case 'artifact_name':
           return 'myexecutable';
         case 'version':
           return '1.0.0';
-        case 'package-path':
+        case 'package_path':
           return fixturesPath;
         default:
           return '';
@@ -82,11 +82,11 @@ describe('main', () => {
   it('should fail when no executables are found', async () => {
     core.getInput.mockImplementation((name: string) => {
       switch (name) {
-        case 'executable-name':
+        case 'artifact_name':
           return 'myexecutable';
         case 'version':
           return '1.0.0';
-        case 'package-path':
+        case 'package_path':
           return '/non/existent/path';
         default:
           return '';

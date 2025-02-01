@@ -9,13 +9,13 @@ import ArtifactBundleComposer from './composer.js'
  */
 export async function run(): Promise<void> {
   try {
-    const executableName: string = core.getInput('executable-name')
+    const artifactName: string = core.getInput('artifact_name')
     const version: string = core.getInput('version')
-    const packagePath: string = core.getInput('package-path')
+    const packagePath: string = core.getInput('package_path')
 
-    core.debug(`Collecting executable: ${executableName} (version: ${version}) from ${packagePath}`)
+    core.debug(`Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`)
 
-    const collector = new ExecutableCollector(executableName, packagePath)
+    const collector = new ExecutableCollector(artifactName, packagePath)
     const executables = collector.collect()
 
     if (executables.length === 0) {
@@ -27,7 +27,7 @@ export async function run(): Promise<void> {
 
     // Create artifact bundle
     const composer = new ArtifactBundleComposer()
-    const result = await composer.compose(executableName, executables)
+    const result = await composer.compose(artifactName, executables)
 
     core.debug(`Created artifact bundle: ${result.zipFilePath}`)
     core.debug(`SHA256: ${result.sha256}`)
