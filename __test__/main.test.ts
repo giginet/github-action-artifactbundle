@@ -16,7 +16,6 @@ describe('main', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    core.platform.isMacOS = true
   })
 
   it('should create artifact bundle from fixtures', async () => {
@@ -32,6 +31,8 @@ describe('main', () => {
           return ''
       }
     })
+    core.platform.isMacOS = true
+
     await run()
 
     // Get outputs from setOutput calls
@@ -120,23 +121,8 @@ describe('main', () => {
   })
 
   it('should fail when not running on macOS', async () => {
-    // Mock platform.isMacOS to return false
     const originalIsMacOS = core.platform.isMacOS
     core.platform.isMacOS = false
-
-    core.getInput.mockImplementation((name: string) => {
-      switch (name) {
-        case 'artifact_name':
-          return 'myexecutable'
-        case 'version':
-          return '1.0.0'
-        case 'package_path':
-          return fixturesPath
-        default:
-          return ''
-      }
-    })
-
     await run()
 
     expect(core.setFailed).toHaveBeenCalledWith(
@@ -144,7 +130,6 @@ describe('main', () => {
     )
     expect(core.setOutput).not.toHaveBeenCalled()
 
-    // Restore original isMacOS
     core.platform.isMacOS = originalIsMacOS
   })
 
