@@ -16,6 +16,7 @@ describe('main', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    core.platform.isMacOS = true
   })
 
   it('should create artifact bundle from fixtures', async () => {
@@ -31,19 +32,22 @@ describe('main', () => {
           return ''
       }
     })
-
     await run()
 
-    // Get the artifact path and SHA256 from setOutput calls
+    // Get outputs from setOutput calls
     const zippedBundlePath = core.setOutput.mock.calls.find(
       (call) => call[0] === 'bundle_path'
     )?.[1] as string
     const sha256 = core.setOutput.mock.calls.find(
       (call) => call[0] === 'bundle_sha256'
     )?.[1] as string
+    const filename = core.setOutput.mock.calls.find(
+      (call) => call[0] === 'bundle_filename'
+    )?.[1] as string
 
     expect(zippedBundlePath).toBe('.artifacts/myexecutable.artifactbundle.zip')
     expect(sha256).toBeDefined()
+    expect(filename).toBe('myexecutable.artifactbundle.zip')
 
     // Verify the zip file exists
     expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
@@ -113,6 +117,35 @@ describe('main', () => {
 
     expect(core.setFailed).toHaveBeenCalledWith('artifact_name is required')
     expect(core.setOutput).not.toHaveBeenCalled()
+  })
+
+  it('should fail when not running on macOS', async () => {
+    // Mock platform.isMacOS to return false
+    const originalIsMacOS = core.platform.isMacOS
+    core.platform.isMacOS = false
+
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'artifact_name':
+          return 'myexecutable'
+        case 'version':
+          return '1.0.0'
+        case 'package_path':
+          return fixturesPath
+        default:
+          return ''
+      }
+    })
+
+    await run()
+
+    expect(core.setFailed).toHaveBeenCalledWith(
+      'This action must be run on macOS'
+    )
+    expect(core.setOutput).not.toHaveBeenCalled()
+
+    // Restore original isMacOS
+    core.platform.isMacOS = originalIsMacOS
   })
 
   it('should fail when version is not provided', async () => {

@@ -1,5 +1,5 @@
 name: 'Create Artifact Bundle'
-description: 'Create artifact bundle for Swift executables'
+description: 'Create artifact bundle for Swift Package'
 inputs:
   artifact_name:
     description: 'Name of the executable to collect'
@@ -7,7 +7,7 @@ inputs:
   version:
     description: 'Version of the executable'
     required: false
-    default: '${{ github.ref_name }}'
+    default: '${{ github.event.release.tag_name || github.ref_name }}'
   package_path:
     description: 'Path to the Swift package directory'
     required: false
@@ -17,6 +17,8 @@ outputs:
     description: 'Path to the created artifact bundle zip file'
   bundle_sha256:
     description: 'SHA256 hash of the artifact bundle'
+  bundle_filename:
+    description: 'Filename of the artifact bundle'
 runs:
   using: 'node20'
   main: 'dist/index.js'

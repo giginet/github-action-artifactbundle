@@ -8,6 +8,7 @@ import ManifestGenerator from './manifest_generator.js'
 interface ComposeResult {
   zipFilePath: string
   sha256: string
+  filename: string
 }
 
 class ArtifactBundleComposer {
@@ -50,7 +51,8 @@ class ArtifactBundleComposer {
 
     const sha256 = this.calculateSHA256(zipFilePath)
 
-    return { zipFilePath, sha256 }
+    const filename = path.basename(zipFilePath)
+    return { zipFilePath, sha256, filename }
   }
 
   private calculateSHA256(filePath: string): string {

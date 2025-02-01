@@ -27381,7 +27381,8 @@ class ArtifactBundleComposer {
         const zipFilePath = path.join(tempDir, `${name}.artifactbundle.zip`);
         await zipArchiver.archive(bundleDir, zipFilePath);
         const sha256 = this.calculateSHA256(zipFilePath);
-        return { zipFilePath, sha256 };
+        const filename = path.basename(zipFilePath);
+        return { zipFilePath, sha256, filename };
     }
     calculateSHA256(filePath) {
         const fileBuffer = fs.readFileSync(filePath);
@@ -27398,6 +27399,10 @@ class ArtifactBundleComposer {
  */
 async function run() {
     try {
+        if (!coreExports.platform.isMacOS) {
+            coreExports.setFailed('This action must be run on macOS');
+            return;
+        }
         const artifactName = coreExports.getInput('artifact_name');
         if (!artifactName) {
             coreExports.setFailed('artifact_name is required');
@@ -27425,6 +27430,7 @@ async function run() {
         // Set outputs
         coreExports.setOutput('bundle_path', result.zipFilePath);
         coreExports.setOutput('bundle_sha256', result.sha256);
+        coreExports.setOutput('bundle_filename', result.filename);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
