@@ -15,6 +15,10 @@ export async function run(): Promise<void> {
       return
     }
     const version: string = core.getInput('version')
+    if (!version) {
+      core.setFailed('version is required')
+      return
+    }
     const packagePath: string = core.getInput('package_path')
 
     core.debug(`Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`)

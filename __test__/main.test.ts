@@ -116,4 +116,22 @@ describe('main', () => {
     expect(core.setFailed).toHaveBeenCalledWith('artifact_name is required');
     expect(core.setOutput).not.toHaveBeenCalled();
   });
+
+  it('should fail when version is not provided', async () => {
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'artifact_name':
+          return 'myexecutable';
+        case 'package_path':
+          return fixturesPath;
+        default:
+          return '';
+      }
+    });
+
+    await run();
+
+    expect(core.setFailed).toHaveBeenCalledWith('version is required');
+    expect(core.setOutput).not.toHaveBeenCalled();
+  });
 });
