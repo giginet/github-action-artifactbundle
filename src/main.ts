@@ -14,7 +14,6 @@ export async function run(): Promise<void> {
     const executableName: string = core.getInput('executable-name')
     const version: string = core.getInput('version')
     const packagePath: string = core.getInput('package-path')
-    console.log(packagePath);
 
     core.debug(`Collecting executable: ${executableName} (version: ${version}) from ${packagePath}`)
 

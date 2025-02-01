@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import Executable from './executable.js';
-import * as os from 'os';
 import ZipArchiver from './archiver.js';
 import ManifestGenerator from './manifest_generator.js';
 
@@ -13,11 +12,14 @@ interface ComposeResult {
 
 class ArtifactBundleComposer {
   async compose(name: string, artifacts: Executable[]): Promise<ComposeResult> {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'artifact-'));
+    if (!name) {
+      throw new Error('name must not be empty');
+    }
+    const tempDir = path.join('.artifacts');
 
     const bundleDir = path.join(tempDir, `${name}.artifactbundle`);
     if (!fs.existsSync(bundleDir)) {
-      fs.mkdirSync(bundleDir);
+      fs.mkdirSync(bundleDir, { recursive: true });
     }
 
     const manifestGenerator = new ManifestGenerator();
@@ -29,7 +31,7 @@ class ArtifactBundleComposer {
       fs.mkdirSync(artifactDir);
     }
 
-    artifacts.forEach(artifact => {
+    artifacts.forEach(async artifact => {
       const variantDir = path.join(artifactDir, artifact.getVariant());
       if (!fs.existsSync(variantDir)) {
         fs.mkdirSync(variantDir, { recursive: true });
