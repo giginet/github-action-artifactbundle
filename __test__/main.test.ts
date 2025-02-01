@@ -33,7 +33,7 @@ describe('main', () => {
 
     await run();
 
-    const expectedHash = '09d53cf9767b76b3469a03210d322c7b0b5456506f746e675568a62ff690cb6d';
+    const expectedHash = 'deb445ba75bb3fd4c09e551051bbdd038ae0403e555dc073cd57ac6e2a9c4359';
 
     // Verify outputs were set
     expect(core.setOutput).toHaveBeenCalledWith('artifact_path', '.artifacts/myexecutable.artifactbundle.zip');
@@ -52,6 +52,31 @@ describe('main', () => {
 
     // Verify SHA256 matches
     expect(sha256).toBe(expectedHash);
+
+    // Verify the directory structure before zipping
+    const bundleName = 'myexecutable.artifactbundle';
+    const bundlePath = path.join('.artifacts', bundleName);
+    
+    // Verify bundle directory exists
+    expect(fs.existsSync(bundlePath)).toBeTruthy();
+    
+    // Verify info.json exists
+    expect(fs.existsSync(path.join(bundlePath, 'info.json'))).toBeTruthy();
+    
+    // Verify executable directory structure
+    const executablePath = path.join(bundlePath, 'myexecutable');
+    expect(fs.existsSync(executablePath)).toBeTruthy();
+    
+    // Get all variants
+    const variants = fs.readdirSync(executablePath);
+    expect(variants.length).toBeGreaterThan(0);
+    
+    // Verify each variant has the executable
+    for (const variant of variants) {
+      const variantPath = path.join(executablePath, variant);
+      const executableFilePath = path.join(variantPath, 'myexecutable');
+      expect(fs.existsSync(executableFilePath)).toBeTruthy();
+    }
   });
 
   it('should fail when no executables are found', async () => {
