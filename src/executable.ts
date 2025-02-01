@@ -17,8 +17,8 @@ class Executable {
     return this.variant;
   }
 
-  getRelativePath(packagePath: string): string {
-    return path.relative(packagePath, this.filePath);
+  getFileName(): string {
+    return path.basename(this.filePath);
   }
 }
 

@@ -11,12 +11,6 @@ interface ComposeResult {
 }
 
 class ArtifactBundleComposer {
-  packagePath: string;
-
-  constructor(packagePath: string) {
-    this.packagePath = packagePath;
-  }
-
   async compose(name: string, artifacts: Executable[]): Promise<ComposeResult> {
     if (!name) {
       throw new Error('name must not be empty');
@@ -27,10 +21,6 @@ class ArtifactBundleComposer {
     if (!fs.existsSync(bundleDir)) {
       fs.mkdirSync(bundleDir, { recursive: true });
     }
-
-    const manifestGenerator = new ManifestGenerator();
-    const infoPath = path.join(bundleDir, 'info.json');
-    manifestGenerator.generate(name, '1.0', this.packagePath, artifacts, infoPath);
 
     const artifactDir = path.join(bundleDir, name);
     if (!fs.existsSync(artifactDir)) {
@@ -46,6 +36,10 @@ class ArtifactBundleComposer {
       const executablePath = path.join(variantDir, path.basename(artifact.getFilePath()));
       fs.copyFileSync(artifact.getFilePath(), executablePath);
     });
+
+    const manifestGenerator = new ManifestGenerator();
+    const infoPath = path.join(bundleDir, 'info.json');
+    manifestGenerator.generate(name, '1.0', artifacts, infoPath);
 
     const zipArchiver = new ZipArchiver();
     const zipFilePath = path.join(tempDir, `${name}.artifactbundle.zip`);
