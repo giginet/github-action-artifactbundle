@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as crypto from 'crypto'
 import { fileURLToPath } from 'url'
 import * as core from '../__fixtures__/core.js'
 
@@ -33,31 +34,22 @@ describe('main', () => {
 
     await run()
 
-    const expectedHash =
-      '81f037b79088676b94d107487b383788495577d56f16875c50a2317fe53e1a1f'
-
-    // Verify outputs were set
-    expect(core.setOutput).toHaveBeenCalledWith(
-      'artifact_path',
-      '.artifacts/myexecutable.artifactbundle.zip'
-    )
-    expect(core.setOutput).toHaveBeenCalledWith('sha256', expectedHash)
-
-    // Get the artifact path from setOutput calls
-    const zippedBundlePath = core.setOutput.mock.calls.find(
+    // Get the artifact path and SHA256 from setOutput calls
+    const artifactPath = core.setOutput.mock.calls.find(
       (call) => call[0] === 'bundle_path'
     )?.[1] as string
-    expect(zippedBundlePath).toBeDefined()
-    expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
-
-    // Get the SHA256 from setOutput calls
     const sha256 = core.setOutput.mock.calls.find(
       (call) => call[0] === 'bundle_sha256'
-    )?.[1]
+    )?.[1] as string
+
+    expect(artifactPath).toBe('.artifacts/myexecutable.artifactbundle.zip')
     expect(sha256).toBeDefined()
 
-    // Verify SHA256 matches
-    expect(sha256).toBe(expectedHash)
+    // Verify the zip file exists
+    expect(fs.existsSync(artifactPath)).toBeTruthy()
+
+    // Verify SHA256 matches the calculated hash
+    expect(sha256).toBe(calculateSHA256(artifactPath))
 
     // Verify the directory structure before zipping
     const bundleName = 'myexecutable.artifactbundle'
@@ -140,4 +132,11 @@ describe('main', () => {
     expect(core.setFailed).toHaveBeenCalledWith('version is required')
     expect(core.setOutput).not.toHaveBeenCalled()
   })
+
+  function calculateSHA256(filePath: string): string {
+    const fileBuffer = fs.readFileSync(filePath)
+    const hashSum = crypto.createHash('sha256')
+    hashSum.update(fileBuffer)
+    return hashSum.digest('hex')
+  }
 })

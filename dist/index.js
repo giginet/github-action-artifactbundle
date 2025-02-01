@@ -27423,8 +27423,8 @@ async function run() {
         coreExports.debug(`Created artifact bundle: ${result.zipFilePath}`);
         coreExports.debug(`SHA256: ${result.sha256}`);
         // Set outputs
-        coreExports.setOutput('artifact_path', result.zipFilePath);
-        coreExports.setOutput('sha256', result.sha256);
+        coreExports.setOutput('bundle_path', result.zipFilePath);
+        coreExports.setOutput('bundle_sha256', result.sha256);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
