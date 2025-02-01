@@ -9,6 +9,10 @@ import ArtifactBundleComposer from './composer.js'
  */
 export async function run(): Promise<void> {
   try {
+    if (!core.platform.isMacOS) {
+      core.setFailed('This action must be run on macOS')
+    }
+
     const artifactName: string = core.getInput('artifact_name')
     if (!artifactName) {
       core.setFailed('artifact_name is required')
