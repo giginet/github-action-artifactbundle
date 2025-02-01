@@ -54,6 +54,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+> ![WARNING] 
+> This action is only available on macOS runner.
+
 ### Inputs
 
 | Required | Key             | Description                       | Default Value                      |
