@@ -59,7 +59,7 @@ jobs:
         with:
           artifact_name: myexecutable
           version: 1.0.0
-          package_path: __tests__/fixtures/myexecutable
+          package_path: ./__test__/fixtures/myexecutable
 
       - name: Print Output
         id: output
