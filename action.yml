@@ -1,4 +1,5 @@
 name: 'Create Artifact Bundle'
+authod: 'giginet'
 description: 'Create artifact bundle for Swift Package'
 inputs:
   artifact_name:
@@ -22,3 +23,6 @@ outputs:
 runs:
   using: 'node20'
   main: 'dist/index.js'
+branding:
+  icon: 'package'
+  color: 'orange'
