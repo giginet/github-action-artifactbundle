@@ -65111,7 +65111,8 @@ class ZipArchiver {
             output.on('close', () => resolve(outputPath));
             archive.on('error', (err) => reject(err));
             archive.pipe(output);
-            archive.directory(directory, false);
+            const dirName = path$1.basename(directory);
+            archive.directory(directory, dirName);
             archive.finalize();
         });
     }

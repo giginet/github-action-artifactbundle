@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import * as path from 'path'
 import archiver from 'archiver'
 
 class ZipArchiver {
@@ -14,7 +15,8 @@ class ZipArchiver {
 
       archive.pipe(output)
 
-      archive.directory(directory, false)
+      const dirName = path.basename(directory)
+      archive.directory(directory, dirName)
 
       archive.finalize()
     })

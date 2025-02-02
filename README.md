@@ -20,8 +20,8 @@ Package Plugin or using [nest](https://github.com/mtj0928/nest).
 
 ## Usage
 
-> [!NOTE]
-> You can refer the settings in [giginet/github-action-artifactbundle-example](https://github.com/giginet/github-action-artifactbundle-example)
+> [!NOTE] You can refer the settings in
+> [giginet/github-action-artifactbundle-example](https://github.com/giginet/github-action-artifactbundle-example)
 
 This plugin collect executables from the repository and compress them into
 `*.artifactbundle.zip`. This plugin just make a bundle, so you need to set up
@@ -57,12 +57,12 @@ jobs:
           NEW_BODY="$(printf "%s\n%s" "$BODY" "$SHA256")"
           gh release edit "${TAG_NAME}" --notes "${NEW_BODY}"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}```
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
-> [!NOTE]
-> You need to configure the permission in the GitHub Action settings to upload the artifacts.
+> [!NOTE] You need to configure the permission in the GitHub Action settings to
+> upload the artifacts.
 > https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#setting-the-permissions-of-the-github_token-for-your-repository
-
 
 ### Inputs
 
