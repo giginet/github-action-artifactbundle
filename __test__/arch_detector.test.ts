@@ -6,11 +6,6 @@ jest.unstable_mockModule('@actions/exec', () => exec)
 
 const { ArchDetector } = await import('../src/arch_detector.js')
 
-jest.mock('@actions/exec', () => ({
-  __esModule: true,
-  exec: jest.fn()
-}))
-
 describe('ArchDetector', () => {
   beforeEach(() => {
     jest.resetAllMocks()
@@ -23,7 +18,6 @@ describe('ArchDetector', () => {
 
     // Mock exec.exec to simulate the file command output
     exec.exec.mockImplementation(async (commandLine: string, args?: string[], options?: ExecOptions) => {
-      console.log("MOCKER");
       options?.listeners?.stdout?.(Buffer.from(mockOutput))
       return 0
     })

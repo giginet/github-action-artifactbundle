@@ -1,7 +1,7 @@
 import { getInput, setFailed, setOutput, info } from '@actions/core'
 import * as path from 'path'
 import ArtifactBundleComposer from './composer.js'
-const { ExecutableCollector } = await import('../src/collector.js')
+import ExecutableCollector from '../src/collector.js'
 
 /**
  * The main function for the action.

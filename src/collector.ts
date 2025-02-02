@@ -3,7 +3,7 @@ import * as glob from '@actions/glob'
 import Executable from './executable.js'
 import { ArchDetector } from './arch_detector.js'
 
-export class ExecutableCollector {
+class ExecutableCollector {
   private executableName: string
   private packagePath: string
   private archDetector: ArchDetector
@@ -70,3 +70,5 @@ export class ExecutableCollector {
     return executables
   }
 }
+
+export default ExecutableCollector
