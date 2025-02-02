@@ -20,6 +20,9 @@ Package Plugin or using [nest](https://github.com/mtj0928/nest).
 
 ## Usage
 
+> [!NOTE]
+> You can refer the settings in [giginet/github-action-artifactbundle-example](https://github.com/giginet/github-action-artifactbundle-example)
+
 This plugin collect executables from the repository and compress them into
 `*.artifactbundle.zip`. This plugin just make a bundle, so you need to set up
 the steps to build Swift Package before this plugin.
@@ -27,13 +30,12 @@ the steps to build Swift Package before this plugin.
 ```yaml
 on:
   release:
-    types: [published]
+    types: [published, edited]
 name: Upload Artifact Bundle to Release
 env:
-  DEVELOPER_DIR: '/Applications/Xcode_16.3.app/Contents/Developer'
+  DEVELOPER_DIR: '/Applications/Xcode_16.2.app/Contents/Developer'
 jobs:
   release:
-    name: Build and Upload Artifact Bundle
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
@@ -42,17 +44,25 @@ jobs:
       - name: Build for x86_64
         run: swift build --disable-sandbox -c release --arch x86_64
       - uses: giginet/github-action-artifactbundle@v1
+        id: artifactbundle
         with:
           artifact_name: myexecutable
       - name: Upload Artifact Bundle to Release
         run: |
-          BODY=${{ github.event.release.body }}
-          gh release upload ${{ jobs.release.outputs.bundle_filename }} ${{ jobs.release.outputs.bundle_path }}
-          NEW_BODY=$(cat $BODY '\n' ${{ jobs.release.output.bundle_sha256 }})
-          gh release update ${{ github.event.release.tag_name }} --body "$NEW_BODY"
+          BODY="${{ github.event.release.body }}"
+          BUNDLE_PATH="${{ steps.artifactbundle.outputs.bundle_path }}"
+          SHA256="${{ steps.artifactbundle.outputs.bundle_sha256 }}"
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          gh release upload "${TAG_NAME}" "${BUNDLE_PATH}"
+          NEW_BODY="$(printf "%s\n%s" "$BODY" "$SHA256")"
+          gh release edit "${TAG_NAME}" --notes "${NEW_BODY}"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}```
+
+> [!NOTE]
+> You need to configure the permission in the GitHub Action settings to upload the artifacts.
+> https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#setting-the-permissions-of-the-github_token-for-your-repository
+
 
 ### Inputs
 
