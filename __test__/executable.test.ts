@@ -1,27 +1,37 @@
-import { describe, it, expect } from '@jest/globals'
-import Executable from '../src/executable'
+import Executable from '../src/executable.js'
 
 describe('Executable', () => {
-  describe('getRelativePath', () => {
-    it('should return relative path from package path', () => {
+  describe('getPlatform', () => {
+    it('should return "linux" when triples contain linux', () => {
       const executable = new Executable(
-        './.build/arm64-apple-macosx/release/myExecutable',
-        ['arm64-apple-macosx']
+        '/path/to/executable',
+        ['x86_64-swift-linux-musl', 'aarch64-swift-linux-musl']
       )
-      expect(executable.getFileName()).toBe('myExecutable')
+      expect(executable.getPlatform()).toBe('linux')
     })
 
-    it('should handle different package paths', () => {
+    it('should return "macos" when triples contain macosx', () => {
       const executable = new Executable(
-        '/path/to/project/.build/x86_64-apple-macosx/debug/myExecutable',
-        ['x86_64-apple-macosx']
+        '/path/to/executable',
+        ['arm64-apple-macosx', 'x86_64-apple-macosx']
       )
-      expect(executable.getFileName()).toBe('myExecutable')
+      expect(executable.getPlatform()).toBe('macos')
     })
 
-    it('should handle same directory', () => {
-      const executable = new Executable('./myExecutable', ['default'])
-      expect(executable.getFileName()).toBe('myExecutable')
+    it('should throw error when triples contain mixed platforms', () => {
+      const executable = new Executable(
+        '/path/to/executable',
+        ['arm64-apple-macosx', 'x86_64-swift-linux-musl']
+      )
+      expect(() => executable.getPlatform()).toThrow('Mixed platform triples are not supported')
+    })
+
+    it('should throw error when triples contain unknown platform', () => {
+      const executable = new Executable(
+        '/path/to/executable',
+        ['arm64-apple-unknown']
+      )
+      expect(() => executable.getPlatform()).toThrow('Unknown platform in triples')
     })
   })
 })

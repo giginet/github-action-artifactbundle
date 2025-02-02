@@ -20,6 +20,24 @@ class Executable {
   getFileName(): string {
     return path.basename(this.filePath)
   }
+
+  getPlatform(): 'linux' | 'macos' {
+    const hasLinux = this.triples.some(triple => triple.includes('linux'))
+    const hasMacOS = this.triples.some(triple => triple.includes('macosx'))
+
+    if (hasLinux && hasMacOS) {
+      throw new Error('Mixed platform triples are not supported')
+    }
+
+    if (hasLinux) {
+      return 'linux'
+    }
+    if (hasMacOS) {
+      return 'macos'
+    }
+
+    throw new Error('Unknown platform in triples')
+  }
 }
 
 export default Executable
