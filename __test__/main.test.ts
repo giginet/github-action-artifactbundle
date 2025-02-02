@@ -71,12 +71,13 @@ describe('main', () => {
     const executablePath = path.join(bundlePath, 'myexecutable')
     expect(fs.existsSync(executablePath)).toBeTruthy()
 
-    // Get all variants
-    const variants = fs.readdirSync(executablePath)
-    expect(variants.length).toBeGreaterThan(0)
+    // Get dirs
+    const variantDirs = fs.readdirSync(executablePath)
+    .filter((f) => fs.statSync(path.join(executablePath, f)).isDirectory())
+    expect(variantDirs.length).toBeGreaterThan(0)
 
     // Verify each variant has the executable
-    for (const variant of variants) {
+    for (const variant of variantDirs) {
       const variantPath = path.join(executablePath, variant)
       const executableFilePath = path.join(variantPath, 'myexecutable')
       expect(fs.existsSync(executableFilePath)).toBeTruthy()
