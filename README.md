@@ -16,7 +16,7 @@ Package Plugin or using [nest](https://github.com/mtj0928/nest).
 - [x] Auto checksum calculation
 - [x] Support for multiple architectures
 - [x] Support for Linux binary
-- [ ] Support for package resources
+- [x] Support for package resources
 
 ## Usage
 

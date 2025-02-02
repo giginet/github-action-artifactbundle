@@ -81,6 +81,65 @@ describe('main', () => {
     }
   })
 
+  it('should create artifact bundle with resource bundle from fixtures', async () => {
+    const resourceFixturePath = path.join(__dirname, 'fixtures', 'mytool-with-resource')
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'artifact_name':
+          return 'mytool-with-resource'
+        case 'version':
+          return '1.0.0'
+        case 'package_path':
+          return resourceFixturePath
+        default:
+          return ''
+      }
+    })
+
+    await run()
+
+    // Get outputs from setOutput calls
+    const zippedBundlePath = core.setOutput.mock.calls.find(
+      (call) => call[0] === 'bundle_path'
+    )?.[1] as string
+    const sha256 = core.setOutput.mock.calls.find(
+      (call) => call[0] === 'bundle_sha256'
+    )?.[1] as string
+    const filename = core.setOutput.mock.calls.find(
+      (call) => call[0] === 'bundle_filename'
+    )?.[1] as string
+
+    expect(zippedBundlePath).toBe('.artifacts/mytool-with-resource.artifactbundle.zip')
+    expect(sha256).toBeDefined()
+    expect(filename).toBe('mytool-with-resource.artifactbundle.zip')
+
+    // Verify the zip file exists and its hash
+    expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
+    expect(sha256).toBe(calculateSHA256(zippedBundlePath))
+
+    const bundleName = 'mytool-with-resource.artifactbundle'
+    const bundlePath = path.join('.artifacts', bundleName)
+    const executablePath = path.join(bundlePath, 'mytool-with-resource')
+
+    // Verify bundle directory structure
+    expect(fs.existsSync(bundlePath)).toBeTruthy()
+    expect(fs.existsSync(path.join(bundlePath, 'info.json'))).toBeTruthy()
+    expect(fs.existsSync(executablePath)).toBeTruthy()
+
+    // Verify variants
+    const variants = fs.readdirSync(executablePath)
+    expect(variants.length).toBeGreaterThan(0)
+
+    // Verify each variant has the executable and resource bundle
+    for (const variant of variants) {
+      const variantPath = path.join(executablePath, variant)
+      const executableFilePath = path.join(variantPath, 'mytool-with-resource')
+      const bundleFilePath = path.join(variantPath, 'mytool-with-resource_mytool-with-resource.bundle')
+      expect(fs.existsSync(executableFilePath)).toBeTruthy()
+      expect(fs.existsSync(bundleFilePath)).toBeTruthy()
+    }
+  })
+
   it('should fail when no executables are found', async () => {
     core.getInput.mockImplementation((name: string) => {
       switch (name) {
