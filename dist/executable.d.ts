@@ -1,9 +1,11 @@
 declare class Executable {
     private filePath;
-    private variant;
-    constructor(filePath: string, variant: string);
+    private triples;
+    constructor(filePath: string, triples: string[]);
     getFilePath(): string;
-    getVariant(): string;
+    getTriples(): string[];
     getFileName(): string;
+    getPlatform(): 'linux' | 'macos';
+    getTriple(): string;
 }
 export default Executable;

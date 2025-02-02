@@ -62,7 +62,7 @@ class ExecutableCollector {
         executables.push(new Executable(file, [triple]))
       } else {
         // For apple directory, generate triples from detected architectures
-        const triples = archs.map(arch => `${arch}-apple-macosx`)
+        const triples = archs.map((arch) => `${arch}-apple-macosx`)
         executables.push(new Executable(file, triples))
       }
     }

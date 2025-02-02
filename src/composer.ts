@@ -12,7 +12,12 @@ interface ComposeResult {
 }
 
 class ArtifactBundleComposer {
-  async compose(name: string, version: string, executables: Executable[], outputPath: string = '.artifacts'): Promise<ComposeResult> {
+  async compose(
+    name: string,
+    version: string,
+    executables: Executable[],
+    outputPath: string = '.artifacts'
+  ): Promise<ComposeResult> {
     if (!name) {
       throw new Error('name must not be empty')
     }
@@ -27,19 +32,19 @@ class ArtifactBundleComposer {
     for (const executable of executables) {
       const platform = executable.getPlatform()
       const triple = executable.getTriple()
-      
+
       // Create directory structure: {artifact_name}-{version}-{platform}/{triple}/bin
       const platformDir = path.join(bundleDir, `${name}-${version}-${platform}`)
       const tripleDir = path.join(platformDir, triple)
       const binDir = path.join(tripleDir, 'bin')
-      
+
       fs.mkdirSync(binDir, { recursive: true })
 
       const executablePath = path.join(
         binDir,
         path.basename(executable.getFilePath())
       )
-      
+
       // Copy executable
       fs.copyFileSync(executable.getFilePath(), executablePath)
 

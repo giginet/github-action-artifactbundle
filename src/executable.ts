@@ -22,8 +22,8 @@ class Executable {
   }
 
   getPlatform(): 'linux' | 'macos' {
-    const hasLinux = this.triples.some(triple => triple.includes('linux'))
-    const hasMacOS = this.triples.some(triple => triple.includes('macosx'))
+    const hasLinux = this.triples.some((triple) => triple.includes('linux'))
+    const hasMacOS = this.triples.some((triple) => triple.includes('macosx'))
 
     if (hasLinux && hasMacOS) {
       throw new Error('Mixed platform triples are not supported')
@@ -45,7 +45,7 @@ class Executable {
     }
 
     // For macOS universal binaries
-    if (this.triples.every(triple => triple.includes('apple-macosx'))) {
+    if (this.triples.every((triple) => triple.includes('apple-macosx'))) {
       return 'universal-apple-macosx'
     }
 

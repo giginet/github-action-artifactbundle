@@ -81,19 +81,21 @@ describe('main', () => {
     expect(fs.existsSync(path.join(bundlePath, 'info.json'))).toBeTruthy()
 
     // Verify platform directories exist
-    const platformDirs = fs.readdirSync(bundlePath)
-      .filter(f => {
+    const platformDirs = fs
+      .readdirSync(bundlePath)
+      .filter((f) => {
         const fullPath = path.join(bundlePath, f)
         return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
       })
-      .map(f => path.join(bundlePath, f))
+      .map((f) => path.join(bundlePath, f))
     expect(platformDirs.length).toBeGreaterThan(0)
 
     // Verify each platform directory structure
     for (const platformDir of platformDirs) {
       // Get triple directories
-      const tripleDirs = fs.readdirSync(platformDir)
-        .filter(f => fs.statSync(path.join(platformDir, f)).isDirectory())
+      const tripleDirs = fs
+        .readdirSync(platformDir)
+        .filter((f) => fs.statSync(path.join(platformDir, f)).isDirectory())
       expect(tripleDirs.length).toBeGreaterThan(0)
 
       // Verify each triple directory has bin with executable
@@ -142,7 +144,9 @@ describe('main', () => {
     )?.[1] as string
 
     expect(zippedBundlePath).toBe(
-      path.resolve(path.join(tempOutputPath, 'mytool-with-resource.artifactbundle.zip'))
+      path.resolve(
+        path.join(tempOutputPath, 'mytool-with-resource.artifactbundle.zip')
+      )
     )
     expect(sha256).toBeDefined()
     expect(filename).toBe('mytool-with-resource.artifactbundle.zip')
@@ -154,19 +158,21 @@ describe('main', () => {
     const bundleName = 'mytool-with-resource.artifactbundle'
     const bundlePath = path.join(tempOutputPath, bundleName)
     // Verify platform directories exist
-    const platformDirs = fs.readdirSync(bundlePath)
-      .filter(f => {
+    const platformDirs = fs
+      .readdirSync(bundlePath)
+      .filter((f) => {
         const fullPath = path.join(bundlePath, f)
         return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
       })
-      .map(f => path.join(bundlePath, f))
+      .map((f) => path.join(bundlePath, f))
     expect(platformDirs.length).toBeGreaterThan(0)
 
     // Verify each platform directory structure
     for (const platformDir of platformDirs) {
       // Get triple directories
-      const tripleDirs = fs.readdirSync(platformDir)
-        .filter(f => fs.statSync(path.join(platformDir, f)).isDirectory())
+      const tripleDirs = fs
+        .readdirSync(platformDir)
+        .filter((f) => fs.statSync(path.join(platformDir, f)).isDirectory())
       expect(tripleDirs.length).toBeGreaterThan(0)
 
       // Verify each triple directory has bin with executable and bundle

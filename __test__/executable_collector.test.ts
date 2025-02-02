@@ -19,9 +19,11 @@ class MockGlobber implements Globber {
   constructor() {
     this.glob = jest.fn<() => Promise<string[]>>().mockResolvedValue([])
     this.getSearchPaths = jest.fn<() => string[]>().mockReturnValue([])
-    this.globGenerator = jest.fn<() => AsyncGenerator<string>>().mockImplementation(async function* () {
-      yield ''
-    })
+    this.globGenerator = jest
+      .fn<() => AsyncGenerator<string>>()
+      .mockImplementation(async function* () {
+        yield ''
+      })
   }
 }
 
@@ -41,7 +43,9 @@ describe('ExecutableCollector', () => {
       return Promise.resolve(executablePaths)
     })
     glob.create.mockResolvedValue(mockGlobber)
-    jest.spyOn(ArchDetector.prototype, 'detectArch').mockResolvedValue(['arm64'])
+    jest
+      .spyOn(ArchDetector.prototype, 'detectArch')
+      .mockResolvedValue(['arm64'])
 
     const collector = new ExecutableCollector('myExecutable')
     const result = await collector.collect()
@@ -62,14 +66,19 @@ describe('ExecutableCollector', () => {
       return Promise.resolve([executablePath])
     })
     glob.create.mockResolvedValue(mockGlobber)
-    jest.spyOn(ArchDetector.prototype, 'detectArch').mockResolvedValue(['arm64', 'x86_64'])
+    jest
+      .spyOn(ArchDetector.prototype, 'detectArch')
+      .mockResolvedValue(['arm64', 'x86_64'])
 
     const collector = new ExecutableCollector('myExecutable')
     const result = await collector.collect()
 
     expect(result).toHaveLength(1)
     expect(result[0]).toEqual(
-      new Executable(executablePath, ['arm64-apple-macosx', 'x86_64-apple-macosx'])
+      new Executable(executablePath, [
+        'arm64-apple-macosx',
+        'x86_64-apple-macosx'
+      ])
     )
   })
 
@@ -89,13 +98,16 @@ describe('ExecutableCollector', () => {
 
   it('should support custom package path', async () => {
     const customPath = '/path/to/package'
-    const executablePath = '/path/to/package/.build/arm64-apple-macosx/release/myExecutable'
+    const executablePath =
+      '/path/to/package/.build/arm64-apple-macosx/release/myExecutable'
     const mockGlobber = new MockGlobber()
     mockGlobber.glob.mockImplementation(() => {
       return Promise.resolve([executablePath])
     })
     glob.create.mockResolvedValue(mockGlobber)
-    jest.spyOn(ArchDetector.prototype, 'detectArch').mockResolvedValue(['arm64'])
+    jest
+      .spyOn(ArchDetector.prototype, 'detectArch')
+      .mockResolvedValue(['arm64'])
 
     const collector = new ExecutableCollector('myExecutable', customPath)
     const result = await collector.collect()
@@ -118,7 +130,9 @@ describe('ExecutableCollector', () => {
       return Promise.resolve([executablePath])
     })
     glob.create.mockResolvedValue(mockGlobber)
-    jest.spyOn(ArchDetector.prototype, 'detectArch').mockResolvedValue(['arm64'])
+    jest
+      .spyOn(ArchDetector.prototype, 'detectArch')
+      .mockResolvedValue(['arm64'])
 
     const collector = new ExecutableCollector('myExecutable')
     const result = await collector.collect('debug')
@@ -129,9 +143,7 @@ describe('ExecutableCollector', () => {
     )
 
     // Verify glob pattern includes debug configuration
-    expect(glob.create).toHaveBeenCalledWith(
-      expect.stringContaining('debug')
-    )
+    expect(glob.create).toHaveBeenCalledWith(expect.stringContaining('debug'))
   })
 
   it('should skip executables with no detected architectures', async () => {
@@ -168,7 +180,9 @@ describe('ExecutableCollector', () => {
       return Promise.resolve(executablePaths)
     })
     glob.create.mockResolvedValue(mockGlobber)
-    jest.spyOn(ArchDetector.prototype, 'detectArch').mockResolvedValue(['aarch64'])
+    jest
+      .spyOn(ArchDetector.prototype, 'detectArch')
+      .mockResolvedValue(['aarch64'])
 
     const collector = new ExecutableCollector('myExecutable')
     const result = await collector.collect()
