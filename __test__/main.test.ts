@@ -45,7 +45,9 @@ describe('main', () => {
       (call) => call[0] === 'bundle_filename'
     )?.[1] as string
 
-    expect(zippedBundlePath).toBe(path.resolve('.artifacts/myexecutable.artifactbundle.zip'))
+    expect(zippedBundlePath).toBe(
+      path.resolve('.artifacts/myexecutable.artifactbundle.zip')
+    )
     expect(sha256).toBeDefined()
     expect(filename).toBe('myexecutable.artifactbundle.zip')
 

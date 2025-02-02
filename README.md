@@ -60,15 +60,15 @@ jobs:
 | -------- | --------------- | --------------------------------- | ------------------------------------------------------------- |
 | ✅       | `artifact_name` | Name of the executable to collect |                                                               |
 |          | `version`       | Version of the artifact           | `${{ github.event.release.tag_name \| ${{ github.ref_name }}` |
-|          | `package_path`  | Path to the package directory     | `./`                                                            |
+|          | `package_path`  | Path to the package directory     | `./`                                                          |
 
 ### Action Outputs
 
-| Key               | Description                         | Value                                      |
-| ----------------- | ----------------------------------- | ------------------------------------------ |
+| Key               | Description                                  | Value                                                 |
+| ----------------- | -------------------------------------------- | ----------------------------------------------------- |
 | `bundle_path`     | Absolute pass to the created artifact bundle | `/path/to/.artifacts/myexecutable.artifactbundle.zip` |
-| `bundle_sha256`   | SHA256 hash of the bundle           | `6ac5405041deec86c371ce71e5f7e56b0c7122f4`   |
-| `bundle_filename` | Filename of the bundle              | `myexecutable.artifactbundle.zip`            |
+| `bundle_sha256`   | SHA256 hash of the bundle                    | `6ac5405041deec86c371ce71e5f7e56b0c7122f4`            |
+| `bundle_filename` | Filename of the bundle                       | `myexecutable.artifactbundle.zip`                     |
 
 ## Build Linux Binary
 

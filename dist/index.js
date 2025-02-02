@@ -27420,21 +27420,22 @@ async function run() {
             return;
         }
         const packagePath = coreExports.getInput('package_path');
-        coreExports.debug(`Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`);
+        coreExports.info(`Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`);
         const collector = new ExecutableCollector(artifactName, packagePath);
         const executables = collector.collect();
         if (executables.length === 0) {
             coreExports.setFailed('No executables found');
             return;
         }
-        coreExports.debug(`Found executables: ${executables.map((e) => e.getFilePath()).join(', ')}`);
+        coreExports.info(`Found executables: ${executables.map((e) => e.getFilePath()).join(', ')}`);
         // Create artifact bundle
         const composer = new ArtifactBundleComposer();
         const result = await composer.compose(artifactName, executables);
-        coreExports.debug(`Created artifact bundle: ${result.zipFilePath}`);
-        coreExports.debug(`SHA256: ${result.sha256}`);
-        // Set outputs
-        coreExports.setOutput('bundle_path', result.zipFilePath);
+        coreExports.info('\x1b[32mSuccessfully created artifact bundle\x1b[0m');
+        coreExports.info(`📦 Created artifact bundle: ${result.zipFilePath}`);
+        coreExports.info(`🔑 SHA256: ${result.sha256}`);
+        // Set outputs with absolute path
+        coreExports.setOutput('bundle_path', path.resolve(result.zipFilePath));
         coreExports.setOutput('bundle_sha256', result.sha256);
         coreExports.setOutput('bundle_filename', result.filename);
     }

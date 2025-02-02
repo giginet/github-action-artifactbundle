@@ -1,4 +1,4 @@
-import { getInput, setFailed, setOutput, debug } from '@actions/core'
+import { getInput, setFailed, setOutput, info } from '@actions/core'
 import * as path from 'path'
 import ExecutableCollector from './collector.js'
 import ArtifactBundleComposer from './composer.js'
@@ -22,7 +22,7 @@ export async function run(): Promise<void> {
     }
     const packagePath: string = getInput('package_path')
 
-    debug(
+    info(
       `Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`
     )
 
@@ -34,7 +34,7 @@ export async function run(): Promise<void> {
       return
     }
 
-    debug(
+    info(
       `Found executables: ${executables.map((e) => e.getFilePath()).join(', ')}`
     )
 
@@ -42,8 +42,9 @@ export async function run(): Promise<void> {
     const composer = new ArtifactBundleComposer()
     const result = await composer.compose(artifactName, executables)
 
-    debug(`Created artifact bundle: ${result.zipFilePath}`)
-    debug(`SHA256: ${result.sha256}`)
+    info('\x1b[32mSuccessfully created artifact bundle\x1b[0m')
+    info(`📦 Created artifact bundle: ${result.zipFilePath}`)
+    info(`🔑 SHA256: ${result.sha256}`)
 
     // Set outputs with absolute path
     setOutput('bundle_path', path.resolve(result.zipFilePath))
