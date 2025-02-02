@@ -67,20 +67,30 @@ describe('main', () => {
     // Verify info.json exists
     expect(fs.existsSync(path.join(bundlePath, 'info.json'))).toBeTruthy()
 
-    // Verify executable directory structure
-    const executablePath = path.join(bundlePath, 'myexecutable')
-    expect(fs.existsSync(executablePath)).toBeTruthy()
+    // Verify platform directories exist
+    const platformDirs = fs.readdirSync(bundlePath)
+      .filter(f => {
+        const fullPath = path.join(bundlePath, f)
+        return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
+      })
+      .map(f => path.join(bundlePath, f))
+    expect(platformDirs.length).toBeGreaterThan(0)
 
-    // Get dirs
-    const variantDirs = fs.readdirSync(executablePath)
-    .filter((f) => fs.statSync(path.join(executablePath, f)).isDirectory())
-    expect(variantDirs.length).toBeGreaterThan(0)
+    // Verify each platform directory structure
+    for (const platformDir of platformDirs) {
+      // Get triple directories
+      const tripleDirs = fs.readdirSync(platformDir)
+        .filter(f => fs.statSync(path.join(platformDir, f)).isDirectory())
+      expect(tripleDirs.length).toBeGreaterThan(0)
 
-    // Verify each variant has the executable
-    for (const variant of variantDirs) {
-      const variantPath = path.join(executablePath, variant)
-      const executableFilePath = path.join(variantPath, 'myexecutable')
-      expect(fs.existsSync(executableFilePath)).toBeTruthy()
+      // Verify each triple directory has bin with executable
+      for (const triple of tripleDirs) {
+        const binDir = path.join(platformDir, triple, 'bin')
+        expect(fs.existsSync(binDir)).toBeTruthy()
+
+        const executablePath = path.join(binDir, 'myexecutable')
+        expect(fs.existsSync(executablePath)).toBeTruthy()
+      }
     }
   })
 
@@ -128,27 +138,35 @@ describe('main', () => {
 
     const bundleName = 'mytool-with-resource.artifactbundle'
     const bundlePath = path.join('.artifacts', bundleName)
-    const executablePath = path.join(bundlePath, 'mytool-with-resource')
+    // Verify platform directories exist
+    const platformDirs = fs.readdirSync(bundlePath)
+      .filter(f => {
+        const fullPath = path.join(bundlePath, f)
+        return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
+      })
+      .map(f => path.join(bundlePath, f))
+    expect(platformDirs.length).toBeGreaterThan(0)
 
-    // Verify bundle directory structure
-    expect(fs.existsSync(bundlePath)).toBeTruthy()
-    expect(fs.existsSync(path.join(bundlePath, 'info.json'))).toBeTruthy()
-    expect(fs.existsSync(executablePath)).toBeTruthy()
+    // Verify each platform directory structure
+    for (const platformDir of platformDirs) {
+      // Get triple directories
+      const tripleDirs = fs.readdirSync(platformDir)
+        .filter(f => fs.statSync(path.join(platformDir, f)).isDirectory())
+      expect(tripleDirs.length).toBeGreaterThan(0)
 
-    // Verify variants
-    const variants = fs.readdirSync(executablePath)
-    expect(variants.length).toBeGreaterThan(0)
+      // Verify each triple directory has bin with executable and bundle
+      for (const triple of tripleDirs) {
+        const binDir = path.join(platformDir, triple, 'bin')
+        expect(fs.existsSync(binDir)).toBeTruthy()
 
-    // Verify each variant has the executable and resource bundle
-    for (const variant of variants) {
-      const variantPath = path.join(executablePath, variant)
-      const executableFilePath = path.join(variantPath, 'mytool-with-resource')
-      const bundleFilePath = path.join(
-        variantPath,
-        'mytool-with-resource_mytool-with-resource.bundle'
-      )
-      expect(fs.existsSync(executableFilePath)).toBeTruthy()
-      expect(fs.existsSync(bundleFilePath)).toBeTruthy()
+        const executablePath = path.join(binDir, 'mytool-with-resource')
+        const bundlePath = path.join(
+          binDir,
+          'mytool-with-resource_mytool-with-resource.bundle'
+        )
+        expect(fs.existsSync(executablePath)).toBeTruthy()
+        expect(fs.existsSync(bundlePath)).toBeTruthy()
+      }
     }
   })
 

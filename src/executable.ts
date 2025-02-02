@@ -38,6 +38,19 @@ class Executable {
 
     throw new Error('Unknown platform in triples')
   }
+
+  getTriple(): string {
+    if (this.triples.length === 1) {
+      return this.triples[0]
+    }
+
+    // For macOS universal binaries
+    if (this.triples.every(triple => triple.includes('apple-macosx'))) {
+      return 'universal-apple-macosx'
+    }
+
+    throw new Error('Cannot determine single triple for multiple architectures')
+  }
 }
 
 export default Executable

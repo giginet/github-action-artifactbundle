@@ -40,7 +40,7 @@ export async function run(): Promise<void> {
 
     // Create artifact bundle
     const composer = new ArtifactBundleComposer()
-    const result = await composer.compose(artifactName, executables)
+    const result = await composer.compose(artifactName, version, executables)
 
     const absoluteZipFilePath = path.resolve(result.zipFilePath)
     info('\x1b[32mSuccessfully created artifact bundle\x1b[0m')

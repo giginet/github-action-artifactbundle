@@ -12,9 +12,12 @@ interface ComposeResult {
 }
 
 class ArtifactBundleComposer {
-  async compose(name: string, artifacts: Executable[]): Promise<ComposeResult> {
+  async compose(name: string, version: string, executables: Executable[]): Promise<ComposeResult> {
     if (!name) {
       throw new Error('name must not be empty')
+    }
+    if (!version) {
+      throw new Error('version must not be empty')
     }
     const tempDir = path.join('.artifacts')
 
@@ -23,41 +26,40 @@ class ArtifactBundleComposer {
       fs.mkdirSync(bundleDir, { recursive: true })
     }
 
-    const artifactDir = path.join(bundleDir, name)
-    if (!fs.existsSync(artifactDir)) {
-      fs.mkdirSync(artifactDir)
-    }
+    for (const executable of executables) {
+      const platform = executable.getPlatform()
+      const triple = executable.getTriple()
+      
+      // Create directory structure: {artifact_name}-{version}-{platform}/{triple}/bin
+      const platformDir = path.join(bundleDir, `${name}-${version}-${platform}`)
+      const tripleDir = path.join(platformDir, triple)
+      const binDir = path.join(tripleDir, 'bin')
+      
+      fs.mkdirSync(binDir, { recursive: true })
 
-    artifacts.forEach(async (artifact) => {
-      const triples = artifact.getTriples()
-      for (const triple of triples) {
-        const variantDir = path.join(artifactDir, triple)
-        if (!fs.existsSync(variantDir)) {
-          fs.mkdirSync(variantDir, { recursive: true })
-        }
+      const executablePath = path.join(
+        binDir,
+        path.basename(executable.getFilePath())
+      )
+      
+      // Copy executable
+      fs.copyFileSync(executable.getFilePath(), executablePath)
 
-        const executablePath = path.join(
-          variantDir,
-          path.basename(artifact.getFilePath())
-        )
-        fs.copyFileSync(artifact.getFilePath(), executablePath)
-
-        // Copy all .bundle directories in the same directory
-        const sourceDir = path.dirname(artifact.getFilePath())
-        const bundleFiles = fs
-          .readdirSync(sourceDir)
-          .filter((file) => file.endsWith('.bundle'))
-        for (const bundleFile of bundleFiles) {
-          const sourceBundlePath = path.join(sourceDir, bundleFile)
-          const destBundlePath = path.join(variantDir, bundleFile)
-          fs.cpSync(sourceBundlePath, destBundlePath, { recursive: true })
-        }
+      // Copy all .bundle directories in the same directory
+      const sourceDir = path.dirname(executable.getFilePath())
+      const bundleFiles = fs
+        .readdirSync(sourceDir)
+        .filter((file) => file.endsWith('.bundle'))
+      for (const bundleFile of bundleFiles) {
+        const sourceBundlePath = path.join(sourceDir, bundleFile)
+        const destBundlePath = path.join(binDir, bundleFile)
+        fs.cpSync(sourceBundlePath, destBundlePath, { recursive: true })
       }
-    })
+    }
 
     const manifestGenerator = new ManifestGenerator()
     const infoPath = path.join(bundleDir, 'info.json')
-    manifestGenerator.generate(name, '1.0', artifacts, infoPath)
+    manifestGenerator.generate(name, version, executables, infoPath)
 
     const zipArchiver = new ZipArchiver()
     const zipFilePath = path.join(tempDir, `${name}.artifactbundle.zip`)
