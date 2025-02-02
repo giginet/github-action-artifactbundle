@@ -1,7 +1,7 @@
 import { getInput, setFailed, setOutput, info } from '@actions/core'
 import * as path from 'path'
-import ExecutableCollector from './collector.js'
 import ArtifactBundleComposer from './composer.js'
+const { ExecutableCollector } = await import('../src/collector.js')
 
 /**
  * The main function for the action.
@@ -27,7 +27,7 @@ export async function run(): Promise<void> {
     )
 
     const collector = new ExecutableCollector(artifactName, packagePath)
-    const executables = collector.collect()
+    const executables = await collector.collect()
 
     if (executables.length === 0) {
       setFailed('No executables found')
