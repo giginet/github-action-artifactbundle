@@ -27431,11 +27431,12 @@ async function run() {
         // Create artifact bundle
         const composer = new ArtifactBundleComposer();
         const result = await composer.compose(artifactName, executables);
+        const absoluteZipFilePath = path.resolve(result.zipFilePath);
         coreExports.info('\x1b[32mSuccessfully created artifact bundle\x1b[0m');
-        coreExports.info(`📦 Created artifact bundle: ${result.zipFilePath}`);
+        coreExports.info(`📦 Created artifact bundle: ${absoluteZipFilePath}`);
         coreExports.info(`🔑 SHA256: ${result.sha256}`);
         // Set outputs with absolute path
-        coreExports.setOutput('bundle_path', path.resolve(result.zipFilePath));
+        coreExports.setOutput('bundle_path', absoluteZipFilePath);
         coreExports.setOutput('bundle_sha256', result.sha256);
         coreExports.setOutput('bundle_filename', result.filename);
     }

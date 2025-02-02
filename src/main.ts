@@ -42,12 +42,13 @@ export async function run(): Promise<void> {
     const composer = new ArtifactBundleComposer()
     const result = await composer.compose(artifactName, executables)
 
+    const absoluteZipFilePath = path.resolve(result.zipFilePath)
     info('\x1b[32mSuccessfully created artifact bundle\x1b[0m')
-    info(`📦 Created artifact bundle: ${result.zipFilePath}`)
+    info(`📦 Created artifact bundle: ${absoluteZipFilePath}`)
     info(`🔑 SHA256: ${result.sha256}`)
 
     // Set outputs with absolute path
-    setOutput('bundle_path', path.resolve(result.zipFilePath))
+    setOutput('bundle_path', absoluteZipFilePath)
     setOutput('bundle_sha256', result.sha256)
     setOutput('bundle_filename', result.filename)
   } catch (error) {
