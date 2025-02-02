@@ -73,6 +73,7 @@ jobs:
 | ✅       | `artifact_name` | Name of the executable to collect |                                                               |
 |          | `version`       | Version of the artifact           | `${{ github.event.release.tag_name \| ${{ github.ref_name }}` |
 |          | `package_path`  | Path to the package directory     | `./`                                                          |
+|          | `output_path`   | Path to output directory for artifact bundle | `./artifacts`                                      |
 
 ### Action Outputs
 

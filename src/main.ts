@@ -21,9 +21,10 @@ export async function run(): Promise<void> {
       return
     }
     const packagePath: string = getInput('package_path')
+    const outputPath: string = getInput('output_path') || '.artifacts'
 
     info(
-      `Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`
+      `Collecting executable: ${artifactName} (version: ${version}) from ${packagePath} to ${outputPath}`
     )
 
     const collector = new ExecutableCollector(artifactName, packagePath)
@@ -40,7 +41,7 @@ export async function run(): Promise<void> {
 
     // Create artifact bundle
     const composer = new ArtifactBundleComposer()
-    const result = await composer.compose(artifactName, version, executables)
+    const result = await composer.compose(artifactName, version, executables, outputPath)
 
     const absoluteZipFilePath = path.resolve(result.zipFilePath)
     info('\x1b[32mSuccessfully created artifact bundle\x1b[0m')

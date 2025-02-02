@@ -12,16 +12,14 @@ interface ComposeResult {
 }
 
 class ArtifactBundleComposer {
-  async compose(name: string, version: string, executables: Executable[]): Promise<ComposeResult> {
+  async compose(name: string, version: string, executables: Executable[], outputPath: string = '.artifacts'): Promise<ComposeResult> {
     if (!name) {
       throw new Error('name must not be empty')
     }
     if (!version) {
       throw new Error('version must not be empty')
     }
-    const tempDir = path.join('.artifacts')
-
-    const bundleDir = path.join(tempDir, `${name}.artifactbundle`)
+    const bundleDir = path.join(outputPath, `${name}.artifactbundle`)
     if (!fs.existsSync(bundleDir)) {
       fs.mkdirSync(bundleDir, { recursive: true })
     }
@@ -62,7 +60,7 @@ class ArtifactBundleComposer {
     manifestGenerator.generate(name, version, executables, infoPath)
 
     const zipArchiver = new ZipArchiver()
-    const zipFilePath = path.join(tempDir, `${name}.artifactbundle.zip`)
+    const zipFilePath = path.join(outputPath, `${name}.artifactbundle.zip`)
     await zipArchiver.archive(bundleDir, zipFilePath)
 
     const sha256 = this.calculateSHA256(zipFilePath)
