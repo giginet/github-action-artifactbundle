@@ -22,7 +22,7 @@ class ExecutableCollector {
     const dirName = parts[buildIndex + 1]
     if (dirName === 'apple') return null
 
-    // 有効なtriple形式かチェック
+    // Check if it's a valid triple format
     const validTriples = [
       'arm64-apple-macosx',
       'x86_64-apple-macosx',
@@ -36,7 +36,7 @@ class ExecutableCollector {
     const executables: Executable[] = []
     const buildPath = path.join(this.packagePath, '.build')
 
-    // 探索パターンを設定
+    // Set up search patterns
     const patterns = [
       `${buildPath}/apple/Products/${configuration}/${this.executableName}`,
       `${buildPath}/arm64-apple-macosx/${configuration}/${this.executableName}`,
@@ -45,23 +45,23 @@ class ExecutableCollector {
       `${buildPath}/x86_64-swift-linux-musl/${configuration}/${this.executableName}`
     ]
 
-    // globでファイルを探索
+    // Search for files using glob pattern
     const globber = await glob.create(patterns.join('\n'))
     const files = await globber.glob()
 
-    // 見つかったファイルを処理
+    // Process found files
     for (const file of files) {
-      // アーキテクチャを検出
+      // Detect architecture
       const archs = await this.archDetector.detectArch(file)
       if (archs.length === 0) continue
 
-      // tripleを取得
+      // Get triple
       const triple = this.getTripleFromPath(file)
       if (triple) {
-        // 既存のtripleを使用
+        // Use existing triple
         executables.push(new Executable(file, [triple]))
       } else {
-        // appleディレクトリの場合、検出したアーキテクチャからtriplesを生成
+        // For apple directory, generate triples from detected architectures
         const triples = archs.map(arch => `${arch}-apple-macosx`)
         executables.push(new Executable(file, triples))
       }
