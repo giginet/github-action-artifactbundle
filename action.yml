@@ -14,11 +14,11 @@ inputs:
     default: '.'
 outputs:
   bundle_path:
-    description: 'Path to the created artifact bundle zip file'
+    description: 'An absolute path to the created artifact bundle zip file'
   bundle_sha256:
-    description: 'SHA256 hash of the artifact bundle'
+    description: 'A SHA256 hash of the artifact bundle'
   bundle_filename:
-    description: 'Filename of the artifact bundle'
+    description: 'A filename of the artifact bundle'
 runs:
   using: 'node20'
   main: 'dist/index.js'

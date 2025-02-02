@@ -1,4 +1,5 @@
 import { getInput, setFailed, setOutput, debug } from '@actions/core'
+import * as path from 'path'
 import ExecutableCollector from './collector.js'
 import ArtifactBundleComposer from './composer.js'
 
@@ -44,8 +45,8 @@ export async function run(): Promise<void> {
     debug(`Created artifact bundle: ${result.zipFilePath}`)
     debug(`SHA256: ${result.sha256}`)
 
-    // Set outputs
-    setOutput('bundle_path', result.zipFilePath)
+    // Set outputs with absolute path
+    setOutput('bundle_path', path.resolve(result.zipFilePath))
     setOutput('bundle_sha256', result.sha256)
     setOutput('bundle_filename', result.filename)
   } catch (error) {
