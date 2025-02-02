@@ -27373,6 +27373,16 @@ class ArtifactBundleComposer {
             }
             const executablePath = path.join(variantDir, path.basename(artifact.getFilePath()));
             fs.copyFileSync(artifact.getFilePath(), executablePath);
+            // Copy all .bundle directories in the same directory
+            const sourceDir = path.dirname(artifact.getFilePath());
+            const bundleFiles = fs
+                .readdirSync(sourceDir)
+                .filter((file) => file.endsWith('.bundle'));
+            for (const bundleFile of bundleFiles) {
+                const sourceBundlePath = path.join(sourceDir, bundleFile);
+                const destBundlePath = path.join(variantDir, bundleFile);
+                fs.cpSync(sourceBundlePath, destBundlePath, { recursive: true });
+            }
         });
         const manifestGenerator = new ManifestGenerator();
         const infoPath = path.join(bundleDir, 'info.json');

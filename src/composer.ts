@@ -42,7 +42,9 @@ class ArtifactBundleComposer {
 
       // Copy all .bundle directories in the same directory
       const sourceDir = path.dirname(artifact.getFilePath())
-      const bundleFiles = fs.readdirSync(sourceDir).filter(file => file.endsWith('.bundle'))
+      const bundleFiles = fs
+        .readdirSync(sourceDir)
+        .filter((file) => file.endsWith('.bundle'))
       for (const bundleFile of bundleFiles) {
         const sourceBundlePath = path.join(sourceDir, bundleFile)
         const destBundlePath = path.join(variantDir, bundleFile)
