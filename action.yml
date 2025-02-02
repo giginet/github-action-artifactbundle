@@ -16,7 +16,7 @@ inputs:
   output_path:
     description: 'Path to output directory for artifact bundle'
     required: false
-    default: './artifacts'
+    default: './.artifacts'
 outputs:
   bundle_path:
     description: 'An absolute path to the created artifact bundle zip file'
