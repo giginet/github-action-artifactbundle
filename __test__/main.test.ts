@@ -13,9 +13,20 @@ describe('main', () => {
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
   const fixturesPath = path.join(__dirname, 'fixtures', 'myexecutable')
+  let tempOutputPath: string
 
   beforeEach(() => {
     jest.clearAllMocks()
+    // Create random temporary output directory
+    fs.mkdirSync('.artifacts', { recursive: true })
+    tempOutputPath = fs.mkdtempSync(path.join('.artifacts', 'test-'))
+  })
+
+  afterEach(() => {
+    // Clean up temporary output directory
+    if (tempOutputPath && fs.existsSync(tempOutputPath)) {
+      fs.rmSync(tempOutputPath, { recursive: true })
+    }
   })
 
   it('should create artifact bundle from fixtures', async () => {
@@ -27,6 +38,8 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return fixturesPath
+        case 'output_path':
+          return tempOutputPath
         default:
           return ''
       }
@@ -46,7 +59,7 @@ describe('main', () => {
     )?.[1] as string
 
     expect(zippedBundlePath).toBe(
-      path.resolve('.artifacts/myexecutable.artifactbundle.zip')
+      path.resolve(path.join(tempOutputPath, 'myexecutable.artifactbundle.zip'))
     )
     expect(sha256).toBeDefined()
     expect(filename).toBe('myexecutable.artifactbundle.zip')
@@ -59,7 +72,7 @@ describe('main', () => {
 
     // Verify the directory structure before zipping
     const bundleName = 'myexecutable.artifactbundle'
-    const bundlePath = path.join('.artifacts', bundleName)
+    const bundlePath = path.join(tempOutputPath, bundleName)
 
     // Verify bundle directory exists
     expect(fs.existsSync(bundlePath)).toBeTruthy()
@@ -108,6 +121,8 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return resourceFixturePath
+        case 'output_path':
+          return tempOutputPath
         default:
           return ''
       }
@@ -127,7 +142,7 @@ describe('main', () => {
     )?.[1] as string
 
     expect(zippedBundlePath).toBe(
-      path.resolve('.artifacts/mytool-with-resource.artifactbundle.zip')
+      path.resolve(path.join(tempOutputPath, 'mytool-with-resource.artifactbundle.zip'))
     )
     expect(sha256).toBeDefined()
     expect(filename).toBe('mytool-with-resource.artifactbundle.zip')
@@ -137,7 +152,7 @@ describe('main', () => {
     expect(sha256).toBe(calculateSHA256(zippedBundlePath))
 
     const bundleName = 'mytool-with-resource.artifactbundle'
-    const bundlePath = path.join('.artifacts', bundleName)
+    const bundlePath = path.join(tempOutputPath, bundleName)
     // Verify platform directories exist
     const platformDirs = fs.readdirSync(bundlePath)
       .filter(f => {
