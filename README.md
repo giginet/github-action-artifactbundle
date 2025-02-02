@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build for arm64
-        run: swift build --disable-sandbox -c release --arch arm62
+        run: swift build --disable-sandbox -c release --arch arm64
       - name: Build for x86_64
         run: swift build --disable-sandbox -c release --arch x86_64
       - uses: giginet/github-action-artifactbundle@v1
