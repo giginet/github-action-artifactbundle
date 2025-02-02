@@ -2,19 +2,19 @@ import path from 'path'
 
 class Executable {
   private filePath: string
-  private variant: string
+  private triples: string[]
 
-  constructor(filePath: string, variant: string) {
+  constructor(filePath: string, triples: string[]) {
     this.filePath = filePath
-    this.variant = variant
+    this.triples = triples
   }
 
   getFilePath(): string {
     return this.filePath
   }
 
-  getVariant(): string {
-    return this.variant
+  getTriples(): string[] {
+    return this.triples
   }
 
   getFileName(): string {

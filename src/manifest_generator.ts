@@ -16,7 +16,7 @@ class ManifestGenerator {
           type: 'executable',
           variants: executables.map((executable) => ({
             path: this.getBundlePath(artifact_name, executable),
-            supportedTriples: [executable.getVariant()]
+            supportedTriples: executable.getTriples()
           }))
         }
       }
@@ -26,7 +26,8 @@ class ManifestGenerator {
   }
 
   private getBundlePath(artifact_name: string, executable: Executable): string {
-    return `${artifact_name}/${executable.getVariant()}/${executable.getFileName()}`
+    // 最初のvariantのパスを使用
+    return `${artifact_name}/${executable.getTriples()[0]}/${executable.getFileName()}`
   }
 }
 

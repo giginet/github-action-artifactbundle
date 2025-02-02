@@ -22,7 +22,7 @@ class ExecutableCollector {
     for (const triple of this.triples) {
       const path = `${this.packagePath}/.build/${triple}/${configuration}/${this.executableName}`
       if (fs.existsSync(path)) {
-        executables.push(new Executable(path, triple))
+        executables.push(new Executable(path, [triple]))
       }
     }
     return executables

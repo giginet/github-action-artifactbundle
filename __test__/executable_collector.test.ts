@@ -32,18 +32,18 @@ describe('ExecutableCollector', () => {
     const expected = [
       new Executable(
         './.build/arm64-apple-macosx/release/myExecutable',
-        'arm64-apple-macosx'
+        ['arm64-apple-macosx']
       ),
       new Executable(
         './.build/x86_64-apple-macosx/release/myExecutable',
-        'x86_64-apple-macosx'
+        ['x86_64-apple-macosx']
       )
     ]
     expect(result.map((e) => e.getFilePath())).toEqual(
       expected.map((e) => e.getFilePath())
     )
-    expect(result.map((e) => e.getVariant())).toEqual(
-      expected.map((e) => e.getVariant())
+    expect(result.map((e) => e.getTriples())).toEqual(
+      expected.map((e) => e.getTriples())
     )
   })
 
@@ -66,14 +66,14 @@ describe('ExecutableCollector', () => {
     const expected = [
       new Executable(
         './.build/arm64-apple-macosx/debug/myExecutable',
-        'arm64-apple-macosx'
+        ['arm64-apple-macosx']
       )
     ]
     expect(result.map((e) => e.getFilePath())).toEqual(
       expected.map((e) => e.getFilePath())
     )
-    expect(result.map((e) => e.getVariant())).toEqual(
-      expected.map((e) => e.getVariant())
+    expect(result.map((e) => e.getTriples())).toEqual(
+      expected.map((e) => e.getTriples())
     )
   })
 })

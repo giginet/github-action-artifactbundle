@@ -10,8 +10,8 @@ describe('ManifestGenerator', () => {
   const artifactName = 'test-artifact'
   const version = '1.0.0'
   const executables = [
-    new Executable('./package/path/to/mytool', 'arm64-apple-macosx'),
-    new Executable('./package/path/to/mytool', 'x86_64-apple-macosx')
+    new Executable('./package/path/to/mytool', ['arm64-apple-macosx']),
+    new Executable('./package/path/to/mytool', ['x86_64-apple-macosx'])
   ]
 
   beforeAll(() => {
@@ -38,17 +38,14 @@ describe('ManifestGenerator', () => {
     expect(manifest.artifacts[artifactName].version).toBe(version)
     expect(manifest.artifacts[artifactName].type).toBe('executable')
     expect(manifest.artifacts[artifactName].variants.length).toBe(2)
-    expect(manifest.artifacts[artifactName].variants[0].path).toBe(
-      'test-artifact/arm64-apple-macosx/mytool'
-    )
-    expect(
-      manifest.artifacts[artifactName].variants[0].supportedTriples
-    ).toContain('arm64-apple-macosx')
-    expect(manifest.artifacts[artifactName].variants[1].path).toBe(
-      'test-artifact/x86_64-apple-macosx/mytool'
-    )
-    expect(
-      manifest.artifacts[artifactName].variants[1].supportedTriples
-    ).toContain('x86_64-apple-macosx')
+    // First executable
+    const variant0 = manifest.artifacts[artifactName].variants[0]
+    expect(variant0.path).toBe('test-artifact/arm64-apple-macosx/mytool')
+    expect(variant0.supportedTriples).toEqual(['arm64-apple-macosx'])
+
+    // Second executable
+    const variant1 = manifest.artifacts[artifactName].variants[1]
+    expect(variant1.path).toBe('test-artifact/x86_64-apple-macosx/mytool')
+    expect(variant1.supportedTriples).toEqual(['x86_64-apple-macosx'])
   })
 })
