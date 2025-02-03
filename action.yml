@@ -1,5 +1,5 @@
 name: 'Create Artifact Bundle'
-authod: 'giginet'
+author: 'giginet'
 description: 'Create artifact bundle for Swift Package'
 inputs:
   artifact_name:
@@ -7,15 +7,15 @@ inputs:
     required: true
   version:
     description: 'Version of the executable'
-    required: false
+    required: true
     default: '${{ github.event.release.tag_name || github.ref_name }}'
   package_path:
     description: 'Path to the Swift package directory'
-    required: false
+    required: true
     default: '.'
   output_path:
     description: 'Path to output directory for artifact bundle'
-    required: false
+    required: true
     default: './.artifacts'
   configuration:
     description: 'Build configuration (debug/release)'
