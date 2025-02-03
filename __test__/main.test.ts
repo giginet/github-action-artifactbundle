@@ -40,6 +40,8 @@ describe('main', () => {
           return fixturesPath
         case 'output_path':
           return tempOutputPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -125,6 +127,8 @@ describe('main', () => {
           return resourceFixturePath
         case 'output_path':
           return tempOutputPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -200,6 +204,8 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return '/non/existent/path'
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -218,6 +224,8 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return fixturesPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -236,6 +244,8 @@ describe('main', () => {
           return 'myexecutable'
         case 'package_path':
           return fixturesPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -244,6 +254,26 @@ describe('main', () => {
     await run()
 
     expect(core.setFailed).toHaveBeenCalledWith('version is required')
+    expect(core.setOutput).not.toHaveBeenCalled()
+  })
+
+  it('should fail when configuration is not provided', async () => {
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'artifact_name':
+          return 'myexecutable'
+        case 'version':
+          return '1.0.0'
+        case 'package_path':
+          return fixturesPath
+        default:
+          return ''
+      }
+    })
+
+    await run()
+
+    expect(core.setFailed).toHaveBeenCalledWith('configuration is required')
     expect(core.setOutput).not.toHaveBeenCalled()
   })
 

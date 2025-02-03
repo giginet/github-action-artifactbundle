@@ -48,7 +48,7 @@ describe('ExecutableCollector', () => {
       .mockResolvedValue(['arm64'])
 
     const collector = new ExecutableCollector('myExecutable')
-    const result = await collector.collect()
+    const result = await collector.collect('release')
 
     expect(result).toHaveLength(2)
     expect(result[0]).toEqual(
@@ -71,7 +71,7 @@ describe('ExecutableCollector', () => {
       .mockResolvedValue(['arm64', 'x86_64'])
 
     const collector = new ExecutableCollector('myExecutable')
-    const result = await collector.collect()
+    const result = await collector.collect('release')
 
     expect(result).toHaveLength(1)
     expect(result[0]).toEqual(
@@ -91,7 +91,7 @@ describe('ExecutableCollector', () => {
     jest.spyOn(ArchDetector.prototype, 'detectArch').mockResolvedValue([])
 
     const collector = new ExecutableCollector('myExecutable')
-    const result = await collector.collect()
+    const result = await collector.collect('release')
 
     expect(result).toHaveLength(0)
   })
@@ -110,7 +110,7 @@ describe('ExecutableCollector', () => {
       .mockResolvedValue(['arm64'])
 
     const collector = new ExecutableCollector('myExecutable', customPath)
-    const result = await collector.collect()
+    const result = await collector.collect('release')
 
     expect(result).toHaveLength(1)
     expect(result[0]).toEqual(
@@ -162,7 +162,7 @@ describe('ExecutableCollector', () => {
       .mockResolvedValueOnce(['x86_64']) // Second executable: has architecture
 
     const collector = new ExecutableCollector('myExecutable')
-    const result = await collector.collect()
+    const result = await collector.collect('release')
 
     expect(result).toHaveLength(1)
     expect(result[0]).toEqual(
@@ -185,7 +185,7 @@ describe('ExecutableCollector', () => {
       .mockResolvedValue(['aarch64'])
 
     const collector = new ExecutableCollector('myExecutable')
-    const result = await collector.collect()
+    const result = await collector.collect('release')
 
     expect(result).toHaveLength(2)
     expect(result[0]).toEqual(
