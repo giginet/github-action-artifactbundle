@@ -15,6 +15,7 @@ Package Plugin or using [nest](https://github.com/mtj0928/nest).
 - [x] Create Artifact Bundle from Swift Package
 - [x] Auto checksum calculation
 - [x] Support for multiple architectures
+- [x] Support for universal binary
 - [x] Support for Linux binary
 - [x] Support for package resources
 
