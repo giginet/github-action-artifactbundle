@@ -79,6 +79,28 @@ describe('ArchDetector', () => {
     )
   })
 
+  it('should detect architecture from Linux format', async () => {
+    const mockOutput =
+      'myexecutable: Mach-O 64-bit arm64 executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|BINDS_TO_WEAK|PIE>'
+
+    exec.exec.mockImplementation(
+      async (commandLine: string, args?: string[], options?: ExecOptions) => {
+        options?.listeners?.stdout?.(Buffer.from(mockOutput))
+        return 0
+      }
+    )
+
+    const detector = new ArchDetector()
+    const architectures = await detector.detectArch('dummy/path')
+
+    expect(architectures).toEqual(['arm64'])
+    expect(exec.exec).toHaveBeenCalledWith(
+      'file',
+      ['dummy/path'],
+      expect.any(Object)
+    )
+  })
+
   it('should return empty array for invalid output', async () => {
     const mockOutput = 'Invalid output'
 

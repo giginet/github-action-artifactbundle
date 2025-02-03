@@ -67659,7 +67659,7 @@ class ArchDetector {
         }
         else {
             // Single architecture binary
-            const archMatch = firstLine.match(/executable\s+(\w+)/);
+            const archMatch = firstLine.match(/(x86_64|arm64)/);
             if (archMatch) {
                 architectures.push(archMatch[1]);
             }

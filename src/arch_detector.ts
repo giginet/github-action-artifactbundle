@@ -15,7 +15,6 @@ export class ArchDetector {
 
     // Parse the output to extract architectures
     const architectures: string[] = []
-    console.log(output)
     const lines = output.split('\n')
 
     // First line contains the summary with all architectures
@@ -33,7 +32,7 @@ export class ArchDetector {
       }
     } else {
       // Single architecture binary
-      const archMatch = firstLine.match(/executable\s+(\w+)/)
+      const archMatch = firstLine.match(/(x86_64|arm64)/)
       if (archMatch) {
         architectures.push(archMatch[1])
       }
