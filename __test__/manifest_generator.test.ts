@@ -7,7 +7,7 @@ import Executable from '../src/executable'
 describe('ManifestGenerator', () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'test-output-'))
   const outputPath = path.join(tempDir, 'info.json')
-  const artifactName = 'test-artifact'
+  const artifactName = 'testartifact'
   const version = '1.0.0'
   const executables = [
     new Executable('./package/path/to/mytool', ['arm64-apple-macosx']),
@@ -40,12 +40,16 @@ describe('ManifestGenerator', () => {
     expect(manifest.artifacts[artifactName].variants.length).toBe(2)
     // First executable
     const variant0 = manifest.artifacts[artifactName].variants[0]
-    expect(variant0.path).toBe('test-artifact/arm64-apple-macosx/mytool')
+    expect(variant0.path).toBe(
+      'testartifact-1.0.0-macos/arm64-apple-macosx/bin/mytool'
+    )
     expect(variant0.supportedTriples).toEqual(['arm64-apple-macosx'])
 
     // Second executable
     const variant1 = manifest.artifacts[artifactName].variants[1]
-    expect(variant1.path).toBe('test-artifact/x86_64-apple-macosx/mytool')
+    expect(variant1.path).toBe(
+      'testartifact-1.0.0-macos/x86_64-apple-macosx/bin/mytool'
+    )
     expect(variant1.supportedTriples).toEqual(['x86_64-apple-macosx'])
   })
 })
