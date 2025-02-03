@@ -61,10 +61,12 @@ describe('main', () => {
     )?.[1] as string
 
     expect(zippedBundlePath).toBe(
-      path.resolve(path.join(tempOutputPath, 'myexecutable.artifactbundle.zip'))
+      path.resolve(
+        path.join(tempOutputPath, 'myexecutable-1.0.0.artifactbundle.zip')
+      )
     )
     expect(sha256).toBeDefined()
-    expect(filename).toBe('myexecutable.artifactbundle.zip')
+    expect(filename).toBe('myexecutable-1.0.0.artifactbundle.zip')
 
     // Verify the zip file exists
     expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
@@ -149,11 +151,14 @@ describe('main', () => {
 
     expect(zippedBundlePath).toBe(
       path.resolve(
-        path.join(tempOutputPath, 'mytool-with-resource.artifactbundle.zip')
+        path.join(
+          tempOutputPath,
+          'mytool-with-resource-1.0.0.artifactbundle.zip'
+        )
       )
     )
     expect(sha256).toBeDefined()
-    expect(filename).toBe('mytool-with-resource.artifactbundle.zip')
+    expect(filename).toBe('mytool-with-resource-1.0.0.artifactbundle.zip')
 
     // Verify the zip file exists and its hash
     expect(fs.existsSync(zippedBundlePath)).toBeTruthy()

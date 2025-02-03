@@ -65137,7 +65137,7 @@ class ArtifactBundleComposer {
         const infoPath = path$1.join(bundleDir, 'info.json');
         manifestGenerator.generate(name, version, executables, infoPath);
         const zipArchiver = new ZipArchiver();
-        const zipFilePath = path$1.join(outputPath, `${name}.artifactbundle.zip`);
+        const zipFilePath = path$1.join(outputPath, `${name}-${version}.artifactbundle.zip`);
         await zipArchiver.archive(bundleDir, zipFilePath);
         const sha256 = this.calculateSHA256(zipFilePath);
         const filename = path$1.basename(zipFilePath);
