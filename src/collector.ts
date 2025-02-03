@@ -32,13 +32,17 @@ class ExecutableCollector {
     return validTriples.includes(dirName) ? dirName : null
   }
 
+  private capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+
   async collect(configuration: string): Promise<Executable[]> {
     const executables: Executable[] = []
     const buildPath = path.join(this.packagePath, '.build')
 
     // Set up search patterns
     const patterns = [
-      `${buildPath}/apple/Products/${configuration}/${this.executableName}`,
+      `${buildPath}/apple/Products/${this.capitalizeFirstLetter(configuration)}/${this.executableName}`,
       `${buildPath}/arm64-apple-macosx/${configuration}/${this.executableName}`,
       `${buildPath}/x86_64-apple-macosx/${configuration}/${this.executableName}`,
       `${buildPath}/aarch64-swift-linux-musl/${configuration}/${this.executableName}`,
