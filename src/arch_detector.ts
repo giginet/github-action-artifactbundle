@@ -15,6 +15,7 @@ export class ArchDetector {
 
     // Parse the output to extract architectures
     const architectures: string[] = []
+    console.log(output)
     const lines = output.split('\n')
 
     // First line contains the summary with all architectures
