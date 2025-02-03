@@ -46,7 +46,10 @@ jobs:
 
   test-action:
     name: GitHub Actions Test
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - name: Checkout
