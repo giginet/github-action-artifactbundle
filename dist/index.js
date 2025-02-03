@@ -67694,7 +67694,7 @@ class ExecutableCollector {
         ];
         return validTriples.includes(dirName) ? dirName : null;
     }
-    async collect(configuration = 'release') {
+    async collect(configuration) {
         const executables = [];
         const buildPath = path__default.join(this.packagePath, '.build');
         // Set up search patterns
@@ -67750,8 +67750,13 @@ async function run() {
         const packagePath = coreExports.getInput('package_path');
         const outputPath = coreExports.getInput('output_path') || '.artifacts';
         coreExports.info(`Collecting executable: ${artifactName} (version: ${version}) from ${packagePath} to ${outputPath}`);
+        const configuration = coreExports.getInput('configuration');
+        if (!configuration) {
+            coreExports.setFailed('configuration is required');
+            return;
+        }
         const collector = new ExecutableCollector(artifactName, packagePath);
-        const executables = await collector.collect();
+        const executables = await collector.collect(configuration);
         if (executables.length === 0) {
             coreExports.setFailed('No executables found');
             return;

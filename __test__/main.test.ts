@@ -257,6 +257,56 @@ describe('main', () => {
     expect(core.setOutput).not.toHaveBeenCalled()
   })
 
+  it('should handle universal binary from apple directory', async () => {
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'artifact_name':
+          return 'myexecutable'
+        case 'version':
+          return '1.0.0'
+        case 'package_path':
+          return fixturesPath
+        case 'output_path':
+          return tempOutputPath
+        case 'configuration':
+          return 'release'
+        default:
+          return ''
+      }
+    })
+
+    await run()
+
+    const bundleName = 'myexecutable.artifactbundle'
+    const bundlePath = path.join(tempOutputPath, bundleName)
+
+    // Verify platform directories exist
+    const platformDirs = fs
+      .readdirSync(bundlePath)
+      .filter((f) => {
+        const fullPath = path.join(bundlePath, f)
+        return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
+      })
+      .map((f) => path.join(bundlePath, f))
+
+    // Find macos platform directory
+    const macosPlatformDir = platformDirs.find((dir) =>
+      path.basename(dir).endsWith('macos')
+    )
+    expect(macosPlatformDir).toBeDefined()
+
+    // Verify universal triple directory exists
+    const universalTripleDir = path.join(
+      macosPlatformDir!,
+      'universal-apple-macosx'
+    )
+    expect(fs.existsSync(universalTripleDir)).toBeTruthy()
+
+    // Verify executable exists in the universal triple directory
+    const executablePath = path.join(universalTripleDir, 'bin', 'myexecutable')
+    expect(fs.existsSync(executablePath)).toBeTruthy()
+  })
+
   it('should fail when configuration is not provided', async () => {
     core.getInput.mockImplementation((name: string) => {
       switch (name) {

@@ -5,6 +5,6 @@ declare class ExecutableCollector {
     private archDetector;
     constructor(executableName: string, packagePath?: string);
     private getTripleFromPath;
-    collect(configuration?: string): Promise<Executable[]>;
+    collect(configuration: string): Promise<Executable[]>;
 }
 export default ExecutableCollector;
