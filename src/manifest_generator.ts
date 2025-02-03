@@ -15,8 +15,8 @@ class ManifestGenerator {
           version: version,
           type: 'executable',
           variants: executables.map((executable) => ({
-            path: this.getBundlePath(artifact_name, executable),
-            supportedTriples: [executable.getVariant()]
+            path: this.getBundlePath(artifact_name, version, executable),
+            supportedTriples: executable.getTriples()
           }))
         }
       }
@@ -25,8 +25,15 @@ class ManifestGenerator {
     fs.writeFileSync(outputPath, JSON.stringify(manifest, null, 2))
   }
 
-  private getBundlePath(artifact_name: string, executable: Executable): string {
-    return `${artifact_name}/${executable.getVariant()}/${executable.getFileName()}`
+  private getBundlePath(
+    artifact_name: string,
+    version: string,
+    executable: Executable
+  ): string {
+    // 最初のvariantのパスを使用
+    const triple = executable.getTriple()
+    const platform = executable.getPlatform()
+    return `${artifact_name}-${version}-${platform}/${triple}/bin/${executable.getFileName()}`
   }
 }
 

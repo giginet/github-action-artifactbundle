@@ -1,7 +1,7 @@
 import { getInput, setFailed, setOutput, info } from '@actions/core'
 import * as path from 'path'
-import ExecutableCollector from './collector.js'
 import ArtifactBundleComposer from './composer.js'
+import ExecutableCollector from '../src/collector.js'
 
 /**
  * The main function for the action.
@@ -21,13 +21,20 @@ export async function run(): Promise<void> {
       return
     }
     const packagePath: string = getInput('package_path')
+    const outputPath: string = getInput('output_path') || '.artifacts'
 
     info(
-      `Collecting executable: ${artifactName} (version: ${version}) from ${packagePath}`
+      `Collecting executable: ${artifactName} (version: ${version}) from ${packagePath} to ${outputPath}`
     )
 
+    const configuration: string = getInput('configuration')
+    if (!configuration) {
+      setFailed('configuration is required')
+      return
+    }
+
     const collector = new ExecutableCollector(artifactName, packagePath)
-    const executables = collector.collect()
+    const executables = await collector.collect(configuration)
 
     if (executables.length === 0) {
       setFailed('No executables found')
@@ -40,7 +47,12 @@ export async function run(): Promise<void> {
 
     // Create artifact bundle
     const composer = new ArtifactBundleComposer()
-    const result = await composer.compose(artifactName, executables)
+    const result = await composer.compose(
+      artifactName,
+      version,
+      executables,
+      outputPath
+    )
 
     const absoluteZipFilePath = path.resolve(result.zipFilePath)
     info('\x1b[32mSuccessfully created artifact bundle\x1b[0m')

@@ -5,7 +5,7 @@ interface ComposeResult {
     filename: string;
 }
 declare class ArtifactBundleComposer {
-    compose(name: string, artifacts: Executable[]): Promise<ComposeResult>;
+    compose(name: string, version: string, executables: Executable[], outputPath?: string): Promise<ComposeResult>;
     private calculateSHA256;
 }
 export default ArtifactBundleComposer;

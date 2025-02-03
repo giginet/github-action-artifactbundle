@@ -1,27 +1,67 @@
-import { describe, it, expect } from '@jest/globals'
-import Executable from '../src/executable'
+import Executable from '../src/executable.js'
 
 describe('Executable', () => {
-  describe('getRelativePath', () => {
-    it('should return relative path from package path', () => {
-      const executable = new Executable(
-        './.build/arm64-apple-macosx/release/myExecutable',
-        'arm64-apple-macosx'
-      )
-      expect(executable.getFileName()).toBe('myExecutable')
+  describe('getPlatform', () => {
+    it('should return "linux" when triples contain linux', () => {
+      const executable = new Executable('/path/to/executable', [
+        'x86_64-swift-linux-musl',
+        'aarch64-swift-linux-musl'
+      ])
+      expect(executable.getPlatform()).toBe('linux')
     })
 
-    it('should handle different package paths', () => {
-      const executable = new Executable(
-        '/path/to/project/.build/x86_64-apple-macosx/debug/myExecutable',
+    it('should return "macos" when triples contain macosx', () => {
+      const executable = new Executable('/path/to/executable', [
+        'arm64-apple-macosx',
         'x86_64-apple-macosx'
-      )
-      expect(executable.getFileName()).toBe('myExecutable')
+      ])
+      expect(executable.getPlatform()).toBe('macos')
     })
 
-    it('should handle same directory', () => {
-      const executable = new Executable('./myExecutable', 'default')
-      expect(executable.getFileName()).toBe('myExecutable')
+    it('should throw error when triples contain mixed platforms', () => {
+      const executable = new Executable('/path/to/executable', [
+        'arm64-apple-macosx',
+        'x86_64-swift-linux-musl'
+      ])
+      expect(() => executable.getPlatform()).toThrow(
+        'Mixed platform triples are not supported'
+      )
+    })
+
+    it('should throw error when triples contain unknown platform', () => {
+      const executable = new Executable('/path/to/executable', [
+        'arm64-apple-unknown'
+      ])
+      expect(() => executable.getPlatform()).toThrow(
+        'Unknown platform in triples'
+      )
+    })
+  })
+
+  describe('getTriple', () => {
+    it('should return single triple when only one triple exists', () => {
+      const executable = new Executable('/path/to/executable', [
+        'x86_64-swift-linux-musl'
+      ])
+      expect(executable.getTriple()).toBe('x86_64-swift-linux-musl')
+    })
+
+    it('should return universal triple for multiple macOS architectures', () => {
+      const executable = new Executable('/path/to/executable', [
+        'arm64-apple-macosx',
+        'x86_64-apple-macosx'
+      ])
+      expect(executable.getTriple()).toBe('universal-apple-macosx')
+    })
+
+    it('should throw error for multiple non-macOS architectures', () => {
+      const executable = new Executable('/path/to/executable', [
+        'x86_64-swift-linux-musl',
+        'aarch64-swift-linux-musl'
+      ])
+      expect(() => executable.getTriple()).toThrow(
+        'Cannot determine single triple for multiple architectures'
+      )
     })
   })
 })

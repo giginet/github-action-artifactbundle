@@ -46,7 +46,10 @@ jobs:
 
   test-action:
     name: GitHub Actions Test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - name: Checkout
@@ -60,6 +63,7 @@ jobs:
           artifact_name: myexecutable
           version: 1.0.0
           package_path: ./__test__/fixtures/myexecutable
+          configuration: release
         env:
           RUNNER_OS: macOS
 

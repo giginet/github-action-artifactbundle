@@ -15,6 +15,7 @@ Package Plugin or using [nest](https://github.com/mtj0928/nest).
 - [x] Create Artifact Bundle from Swift Package
 - [x] Auto checksum calculation
 - [x] Support for multiple architectures
+- [x] Support for universal binary
 - [x] Support for Linux binary
 - [x] Support for package resources
 
@@ -40,11 +41,9 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
-      - name: Build for arm64
-        run: swift build --disable-sandbox -c release --arch arm64
-      - name: Build for x86_64
-        run: swift build --disable-sandbox -c release --arch x86_64
-      - uses: giginet/github-action-artifactbundle@v1
+      - name: Build Universal Binary
+        run: swift build --disable-sandbox -c release --arch arm64 --arch x86_64
+      - uses: giginet/github-action-artifactbundle@v2
         id: artifactbundle
         with:
           artifact_name: myexecutable
@@ -73,6 +72,8 @@ jobs:
 | ✅       | `artifact_name` | Name of the executable to collect |                                                               |
 |          | `version`       | Version of the artifact           | `${{ github.event.release.tag_name \| ${{ github.ref_name }}` |
 |          | `package_path`  | Path to the package directory     | `./`                                                          |
+|          | `output_path`   | Path to output directory for artifact bundle | `./.artifacts`                                      |
+| ✅       | `configuration` | Build configuration (debug/release)          | `release`                                           |
 
 ### Action Outputs
 

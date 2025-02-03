@@ -13,9 +13,20 @@ describe('main', () => {
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
   const fixturesPath = path.join(__dirname, 'fixtures', 'myexecutable')
+  let tempOutputPath: string
 
   beforeEach(() => {
     jest.clearAllMocks()
+    // Create random temporary output directory
+    fs.mkdirSync('.artifacts', { recursive: true })
+    tempOutputPath = fs.mkdtempSync(path.join('.artifacts', 'test-'))
+  })
+
+  afterEach(() => {
+    // Clean up temporary output directory
+    if (tempOutputPath && fs.existsSync(tempOutputPath)) {
+      fs.rmSync(tempOutputPath, { recursive: true })
+    }
   })
 
   it('should create artifact bundle from fixtures', async () => {
@@ -27,6 +38,10 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return fixturesPath
+        case 'output_path':
+          return tempOutputPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -46,10 +61,12 @@ describe('main', () => {
     )?.[1] as string
 
     expect(zippedBundlePath).toBe(
-      path.resolve('.artifacts/myexecutable.artifactbundle.zip')
+      path.resolve(
+        path.join(tempOutputPath, 'myexecutable-1.0.0.artifactbundle.zip')
+      )
     )
     expect(sha256).toBeDefined()
-    expect(filename).toBe('myexecutable.artifactbundle.zip')
+    expect(filename).toBe('myexecutable-1.0.0.artifactbundle.zip')
 
     // Verify the zip file exists
     expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
@@ -59,7 +76,7 @@ describe('main', () => {
 
     // Verify the directory structure before zipping
     const bundleName = 'myexecutable.artifactbundle'
-    const bundlePath = path.join('.artifacts', bundleName)
+    const bundlePath = path.join(tempOutputPath, bundleName)
 
     // Verify bundle directory exists
     expect(fs.existsSync(bundlePath)).toBeTruthy()
@@ -67,19 +84,32 @@ describe('main', () => {
     // Verify info.json exists
     expect(fs.existsSync(path.join(bundlePath, 'info.json'))).toBeTruthy()
 
-    // Verify executable directory structure
-    const executablePath = path.join(bundlePath, 'myexecutable')
-    expect(fs.existsSync(executablePath)).toBeTruthy()
+    // Verify platform directories exist
+    const platformDirs = fs
+      .readdirSync(bundlePath)
+      .filter((f) => {
+        const fullPath = path.join(bundlePath, f)
+        return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
+      })
+      .map((f) => path.join(bundlePath, f))
+    expect(platformDirs.length).toBeGreaterThan(0)
 
-    // Get all variants
-    const variants = fs.readdirSync(executablePath)
-    expect(variants.length).toBeGreaterThan(0)
+    // Verify each platform directory structure
+    for (const platformDir of platformDirs) {
+      // Get triple directories
+      const tripleDirs = fs
+        .readdirSync(platformDir)
+        .filter((f) => fs.statSync(path.join(platformDir, f)).isDirectory())
+      expect(tripleDirs.length).toBeGreaterThan(0)
 
-    // Verify each variant has the executable
-    for (const variant of variants) {
-      const variantPath = path.join(executablePath, variant)
-      const executableFilePath = path.join(variantPath, 'myexecutable')
-      expect(fs.existsSync(executableFilePath)).toBeTruthy()
+      // Verify each triple directory has bin with executable
+      for (const triple of tripleDirs) {
+        const binDir = path.join(platformDir, triple, 'bin')
+        expect(fs.existsSync(binDir)).toBeTruthy()
+
+        const executablePath = path.join(binDir, 'myexecutable')
+        expect(fs.existsSync(executablePath)).toBeTruthy()
+      }
     }
   })
 
@@ -97,6 +127,10 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return resourceFixturePath
+        case 'output_path':
+          return tempOutputPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -116,38 +150,53 @@ describe('main', () => {
     )?.[1] as string
 
     expect(zippedBundlePath).toBe(
-      path.resolve('.artifacts/mytool-with-resource.artifactbundle.zip')
+      path.resolve(
+        path.join(
+          tempOutputPath,
+          'mytool-with-resource-1.0.0.artifactbundle.zip'
+        )
+      )
     )
     expect(sha256).toBeDefined()
-    expect(filename).toBe('mytool-with-resource.artifactbundle.zip')
+    expect(filename).toBe('mytool-with-resource-1.0.0.artifactbundle.zip')
 
     // Verify the zip file exists and its hash
     expect(fs.existsSync(zippedBundlePath)).toBeTruthy()
     expect(sha256).toBe(calculateSHA256(zippedBundlePath))
 
     const bundleName = 'mytool-with-resource.artifactbundle'
-    const bundlePath = path.join('.artifacts', bundleName)
-    const executablePath = path.join(bundlePath, 'mytool-with-resource')
+    const bundlePath = path.join(tempOutputPath, bundleName)
+    // Verify platform directories exist
+    const platformDirs = fs
+      .readdirSync(bundlePath)
+      .filter((f) => {
+        const fullPath = path.join(bundlePath, f)
+        return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
+      })
+      .map((f) => path.join(bundlePath, f))
+    expect(platformDirs.length).toBeGreaterThan(0)
 
-    // Verify bundle directory structure
-    expect(fs.existsSync(bundlePath)).toBeTruthy()
-    expect(fs.existsSync(path.join(bundlePath, 'info.json'))).toBeTruthy()
-    expect(fs.existsSync(executablePath)).toBeTruthy()
+    // Verify each platform directory structure
+    for (const platformDir of platformDirs) {
+      // Get triple directories
+      const tripleDirs = fs
+        .readdirSync(platformDir)
+        .filter((f) => fs.statSync(path.join(platformDir, f)).isDirectory())
+      expect(tripleDirs.length).toBeGreaterThan(0)
 
-    // Verify variants
-    const variants = fs.readdirSync(executablePath)
-    expect(variants.length).toBeGreaterThan(0)
+      // Verify each triple directory has bin with executable and bundle
+      for (const triple of tripleDirs) {
+        const binDir = path.join(platformDir, triple, 'bin')
+        expect(fs.existsSync(binDir)).toBeTruthy()
 
-    // Verify each variant has the executable and resource bundle
-    for (const variant of variants) {
-      const variantPath = path.join(executablePath, variant)
-      const executableFilePath = path.join(variantPath, 'mytool-with-resource')
-      const bundleFilePath = path.join(
-        variantPath,
-        'mytool-with-resource_mytool-with-resource.bundle'
-      )
-      expect(fs.existsSync(executableFilePath)).toBeTruthy()
-      expect(fs.existsSync(bundleFilePath)).toBeTruthy()
+        const executablePath = path.join(binDir, 'mytool-with-resource')
+        const bundlePath = path.join(
+          binDir,
+          'mytool-with-resource_mytool-with-resource.bundle'
+        )
+        expect(fs.existsSync(executablePath)).toBeTruthy()
+        expect(fs.existsSync(bundlePath)).toBeTruthy()
+      }
     }
   })
 
@@ -160,6 +209,8 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return '/non/existent/path'
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -178,6 +229,8 @@ describe('main', () => {
           return '1.0.0'
         case 'package_path':
           return fixturesPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -196,6 +249,8 @@ describe('main', () => {
           return 'myexecutable'
         case 'package_path':
           return fixturesPath
+        case 'configuration':
+          return 'release'
         default:
           return ''
       }
@@ -204,6 +259,76 @@ describe('main', () => {
     await run()
 
     expect(core.setFailed).toHaveBeenCalledWith('version is required')
+    expect(core.setOutput).not.toHaveBeenCalled()
+  })
+
+  it('should handle universal binary from apple directory', async () => {
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'artifact_name':
+          return 'myexecutable'
+        case 'version':
+          return '1.0.0'
+        case 'package_path':
+          return fixturesPath
+        case 'output_path':
+          return tempOutputPath
+        case 'configuration':
+          return 'release'
+        default:
+          return ''
+      }
+    })
+
+    await run()
+
+    const bundleName = 'myexecutable.artifactbundle'
+    const bundlePath = path.join(tempOutputPath, bundleName)
+
+    // Verify platform directories exist
+    const platformDirs = fs
+      .readdirSync(bundlePath)
+      .filter((f) => {
+        const fullPath = path.join(bundlePath, f)
+        return fs.statSync(fullPath).isDirectory() && f !== 'info.json'
+      })
+      .map((f) => path.join(bundlePath, f))
+
+    // Find macos platform directory
+    const macosPlatformDir = platformDirs.find((dir) =>
+      path.basename(dir).endsWith('macos')
+    )
+    expect(macosPlatformDir).toBeDefined()
+
+    // Verify universal triple directory exists
+    const universalTripleDir = path.join(
+      macosPlatformDir!,
+      'universal-apple-macosx'
+    )
+    expect(fs.existsSync(universalTripleDir)).toBeTruthy()
+
+    // Verify executable exists in the universal triple directory
+    const executablePath = path.join(universalTripleDir, 'bin', 'myexecutable')
+    expect(fs.existsSync(executablePath)).toBeTruthy()
+  })
+
+  it('should fail when configuration is not provided', async () => {
+    core.getInput.mockImplementation((name: string) => {
+      switch (name) {
+        case 'artifact_name':
+          return 'myexecutable'
+        case 'version':
+          return '1.0.0'
+        case 'package_path':
+          return fixturesPath
+        default:
+          return ''
+      }
+    })
+
+    await run()
+
+    expect(core.setFailed).toHaveBeenCalledWith('configuration is required')
     expect(core.setOutput).not.toHaveBeenCalled()
   })
 

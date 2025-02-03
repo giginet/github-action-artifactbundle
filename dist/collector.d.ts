@@ -2,8 +2,10 @@ import Executable from './executable.js';
 declare class ExecutableCollector {
     private executableName;
     private packagePath;
-    private triples;
+    private archDetector;
     constructor(executableName: string, packagePath?: string);
-    collect(configuration?: string): Executable[];
+    private getTripleFromPath;
+    private capitalizeFirstLetter;
+    collect(configuration: string): Promise<Executable[]>;
 }
 export default ExecutableCollector;
