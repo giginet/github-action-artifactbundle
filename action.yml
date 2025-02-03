@@ -17,6 +17,10 @@ inputs:
     description: 'Path to output directory for artifact bundle'
     required: false
     default: './.artifacts'
+  configuration:
+    description: 'Build configuration (debug/release)'
+    required: true
+    default: 'release'
 outputs:
   bundle_path:
     description: 'An absolute path to the created artifact bundle zip file'

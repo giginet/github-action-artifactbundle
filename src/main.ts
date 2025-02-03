@@ -27,8 +27,14 @@ export async function run(): Promise<void> {
       `Collecting executable: ${artifactName} (version: ${version}) from ${packagePath} to ${outputPath}`
     )
 
+    const configuration: string = getInput('configuration')
+    if (!configuration) {
+      setFailed('configuration is required')
+      return
+    }
+
     const collector = new ExecutableCollector(artifactName, packagePath)
-    const executables = await collector.collect()
+    const executables = await collector.collect(configuration)
 
     if (executables.length === 0) {
       setFailed('No executables found')

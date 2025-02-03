@@ -32,7 +32,7 @@ class ExecutableCollector {
     return validTriples.includes(dirName) ? dirName : null
   }
 
-  async collect(configuration: string = 'release'): Promise<Executable[]> {
+  async collect(configuration: string): Promise<Executable[]> {
     const executables: Executable[] = []
     const buildPath = path.join(this.packagePath, '.build')
 
