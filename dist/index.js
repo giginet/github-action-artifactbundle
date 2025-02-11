@@ -82,7 +82,7 @@ function requireUtils$2 () {
 	// We use any as a valid input type
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	Object.defineProperty(utils$2, "__esModule", { value: true });
-	utils$2.toCommandProperties = utils$2.toCommandValue = undefined;
+	utils$2.toCommandProperties = utils$2.toCommandValue = void 0;
 	/**
 	 * Sanitizes an input into a string so it can be passed into issueCommand safely
 	 * @param input input to sanitize into a string
@@ -150,7 +150,7 @@ function requireCommand () {
 	    return result;
 	};
 	Object.defineProperty(command, "__esModule", { value: true });
-	command.issue = command.issueCommand = undefined;
+	command.issue = command.issueCommand = void 0;
 	const os = __importStar(require$$0$2);
 	const utils_1 = requireUtils$2();
 	/**
@@ -256,7 +256,7 @@ function requireFileCommand () {
 	    return result;
 	};
 	Object.defineProperty(fileCommand, "__esModule", { value: true });
-	fileCommand.prepareKeyValueMessage = fileCommand.issueFileCommand = undefined;
+	fileCommand.prepareKeyValueMessage = fileCommand.issueFileCommand = void 0;
 	// We use any as a valid input type
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const crypto = __importStar(require$$0__default);
@@ -307,7 +307,7 @@ function requireProxy () {
 	if (hasRequiredProxy) return proxy;
 	hasRequiredProxy = 1;
 	Object.defineProperty(proxy, "__esModule", { value: true });
-	proxy.checkBypass = proxy.getProxyUrl = undefined;
+	proxy.checkBypass = proxy.getProxyUrl = void 0;
 	function getProxyUrl(reqUrl) {
 	    const usingSsl = reqUrl.protocol === 'https:';
 	    if (checkBypass(reqUrl)) {
@@ -8228,7 +8228,7 @@ function requireUtils$1 () {
 	if (hasRequiredUtils$1) return utils$1;
 	hasRequiredUtils$1 = 1;
 	Object.defineProperty(utils$1, "__esModule", { value: true });
-	utils$1.enumToMap = undefined;
+	utils$1.enumToMap = void 0;
 	function enumToMap(obj) {
 	    const res = {};
 	    Object.keys(obj).forEach((key) => {
@@ -8251,7 +8251,7 @@ function requireConstants$4 () {
 	hasRequiredConstants$4 = 1;
 	(function (exports) {
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.SPECIAL_HEADERS = exports.HEADER_STATE = exports.MINOR = exports.MAJOR = exports.CONNECTION_TOKEN_CHARS = exports.HEADER_CHARS = exports.TOKEN = exports.STRICT_TOKEN = exports.HEX = exports.URL_CHAR = exports.STRICT_URL_CHAR = exports.USERINFO_CHARS = exports.MARK = exports.ALPHANUM = exports.NUM = exports.HEX_MAP = exports.NUM_MAP = exports.ALPHA = exports.FINISH = exports.H_METHOD_MAP = exports.METHOD_MAP = exports.METHODS_RTSP = exports.METHODS_ICE = exports.METHODS_HTTP = exports.METHODS = exports.LENIENT_FLAGS = exports.FLAGS = exports.TYPE = exports.ERROR = undefined;
+		exports.SPECIAL_HEADERS = exports.HEADER_STATE = exports.MINOR = exports.MAJOR = exports.CONNECTION_TOKEN_CHARS = exports.HEADER_CHARS = exports.TOKEN = exports.STRICT_TOKEN = exports.HEX = exports.URL_CHAR = exports.STRICT_URL_CHAR = exports.USERINFO_CHARS = exports.MARK = exports.ALPHANUM = exports.NUM = exports.HEX_MAP = exports.NUM_MAP = exports.ALPHA = exports.FINISH = exports.H_METHOD_MAP = exports.METHOD_MAP = exports.METHODS_RTSP = exports.METHODS_ICE = exports.METHODS_HTTP = exports.METHODS = exports.LENIENT_FLAGS = exports.FLAGS = exports.TYPE = exports.ERROR = void 0;
 		const utils_1 = requireUtils$1();
 		(function (ERROR) {
 		    ERROR[ERROR["OK"] = 0] = "OK";
@@ -24416,7 +24416,7 @@ function requireLib$1 () {
 	    });
 	};
 	Object.defineProperty(lib$1, "__esModule", { value: true });
-	lib$1.HttpClient = lib$1.isHttps = lib$1.HttpClientResponse = lib$1.HttpClientError = lib$1.getProxyUrl = lib$1.MediaTypes = lib$1.Headers = lib$1.HttpCodes = undefined;
+	lib$1.HttpClient = lib$1.isHttps = lib$1.HttpClientResponse = lib$1.HttpClientError = lib$1.getProxyUrl = lib$1.MediaTypes = lib$1.Headers = lib$1.HttpCodes = void 0;
 	const http = __importStar(require$$2$1);
 	const https = __importStar(require$$3);
 	const pm = __importStar(requireProxy());
@@ -24499,8 +24499,8 @@ function requireLib$1 () {
 	        this.message = message;
 	    }
 	    readBody() {
-	        return __awaiter(this, undefined, undefined, function* () {
-	            return new Promise((resolve) => __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
+	            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
 	                let output = Buffer.alloc(0);
 	                this.message.on('data', (chunk) => {
 	                    output = Buffer.concat([output, chunk]);
@@ -24512,8 +24512,8 @@ function requireLib$1 () {
 	        });
 	    }
 	    readBodyBuffer() {
-	        return __awaiter(this, undefined, undefined, function* () {
-	            return new Promise((resolve) => __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
+	            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
 	                const chunks = [];
 	                this.message.on('data', (chunk) => {
 	                    chunks.push(chunk);
@@ -24570,42 +24570,42 @@ function requireLib$1 () {
 	        }
 	    }
 	    options(requestUrl, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request('OPTIONS', requestUrl, null, additionalHeaders || {});
 	        });
 	    }
 	    get(requestUrl, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request('GET', requestUrl, null, additionalHeaders || {});
 	        });
 	    }
 	    del(requestUrl, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request('DELETE', requestUrl, null, additionalHeaders || {});
 	        });
 	    }
 	    post(requestUrl, data, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request('POST', requestUrl, data, additionalHeaders || {});
 	        });
 	    }
 	    patch(requestUrl, data, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request('PATCH', requestUrl, data, additionalHeaders || {});
 	        });
 	    }
 	    put(requestUrl, data, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request('PUT', requestUrl, data, additionalHeaders || {});
 	        });
 	    }
 	    head(requestUrl, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request('HEAD', requestUrl, null, additionalHeaders || {});
 	        });
 	    }
 	    sendStream(verb, requestUrl, stream, additionalHeaders) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return this.request(verb, requestUrl, stream, additionalHeaders);
 	        });
 	    }
@@ -24614,14 +24614,14 @@ function requireLib$1 () {
 	     * Be aware that not found returns a null.  Other errors (4xx, 5xx) reject the promise
 	     */
 	    getJson(requestUrl, additionalHeaders = {}) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
 	            const res = yield this.get(requestUrl, additionalHeaders);
 	            return this._processResponse(res, this.requestOptions);
 	        });
 	    }
 	    postJson(requestUrl, obj, additionalHeaders = {}) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            const data = JSON.stringify(obj, null, 2);
 	            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
 	            additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
@@ -24630,7 +24630,7 @@ function requireLib$1 () {
 	        });
 	    }
 	    putJson(requestUrl, obj, additionalHeaders = {}) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            const data = JSON.stringify(obj, null, 2);
 	            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
 	            additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
@@ -24639,7 +24639,7 @@ function requireLib$1 () {
 	        });
 	    }
 	    patchJson(requestUrl, obj, additionalHeaders = {}) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            const data = JSON.stringify(obj, null, 2);
 	            additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
 	            additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
@@ -24653,7 +24653,7 @@ function requireLib$1 () {
 	     * Prefer get, del, post and patch
 	     */
 	    request(verb, requestUrl, data, headers) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            if (this._disposed) {
 	                throw new Error('Client has already been disposed.');
 	            }
@@ -24749,7 +24749,7 @@ function requireLib$1 () {
 	     * @param data
 	     */
 	    requestRaw(info, data) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            return new Promise((resolve, reject) => {
 	                function callbackForResult(err, res) {
 	                    if (err) {
@@ -24958,15 +24958,15 @@ function requireLib$1 () {
 	        return proxyAgent;
 	    }
 	    _performExponentialBackoff(retryNumber) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            retryNumber = Math.min(ExponentialBackoffCeiling, retryNumber);
 	            const ms = ExponentialBackoffTimeSlice * Math.pow(2, retryNumber);
 	            return new Promise(resolve => setTimeout(() => resolve(), ms));
 	        });
 	    }
 	    _processResponse(res, options) {
-	        return __awaiter(this, undefined, undefined, function* () {
-	            return new Promise((resolve, reject) => __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
+	            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
 	                const statusCode = res.message.statusCode || 0;
 	                const response = {
 	                    statusCode,
@@ -25053,7 +25053,7 @@ function requireAuth () {
 	    });
 	};
 	Object.defineProperty(auth, "__esModule", { value: true });
-	auth.PersonalAccessTokenCredentialHandler = auth.BearerCredentialHandler = auth.BasicCredentialHandler = undefined;
+	auth.PersonalAccessTokenCredentialHandler = auth.BearerCredentialHandler = auth.BasicCredentialHandler = void 0;
 	class BasicCredentialHandler {
 	    constructor(username, password) {
 	        this.username = username;
@@ -25070,7 +25070,7 @@ function requireAuth () {
 	        return false;
 	    }
 	    handleAuthentication() {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            throw new Error('not implemented');
 	        });
 	    }
@@ -25093,7 +25093,7 @@ function requireAuth () {
 	        return false;
 	    }
 	    handleAuthentication() {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            throw new Error('not implemented');
 	        });
 	    }
@@ -25116,7 +25116,7 @@ function requireAuth () {
 	        return false;
 	    }
 	    handleAuthentication() {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            throw new Error('not implemented');
 	        });
 	    }
@@ -25141,7 +25141,7 @@ function requireOidcUtils () {
 	    });
 	};
 	Object.defineProperty(oidcUtils, "__esModule", { value: true });
-	oidcUtils.OidcClient = undefined;
+	oidcUtils.OidcClient = void 0;
 	const http_client_1 = requireLib$1();
 	const auth_1 = requireAuth();
 	const core_1 = requireCore$1();
@@ -25169,7 +25169,7 @@ function requireOidcUtils () {
 	    }
 	    static getCall(id_token_url) {
 	        var _a;
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            const httpclient = OidcClient.createHttpClient();
 	            const res = yield httpclient
 	                .getJson(id_token_url)
@@ -25178,7 +25178,7 @@ function requireOidcUtils () {
         Error Code : ${error.statusCode}\n 
         Error Message: ${error.message}`);
 	            });
-	            const id_token = (_a = res.result) === null || _a === undefined ? undefined : _a.value;
+	            const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
 	            if (!id_token) {
 	                throw new Error('Response json body do not have ID Token field');
 	            }
@@ -25186,7 +25186,7 @@ function requireOidcUtils () {
 	        });
 	    }
 	    static getIDToken(audience) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            try {
 	                // New ID Token is requested from action service
 	                let id_token_url = OidcClient.getIDTokenUrl();
@@ -25228,7 +25228,7 @@ function requireSummary () {
 		    });
 		};
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.summary = exports.markdownSummary = exports.SUMMARY_DOCS_URL = exports.SUMMARY_ENV_VAR = undefined;
+		exports.summary = exports.markdownSummary = exports.SUMMARY_DOCS_URL = exports.SUMMARY_ENV_VAR = void 0;
 		const os_1 = require$$0$2;
 		const fs_1 = fs__default;
 		const { access, appendFile, writeFile } = fs_1.promises;
@@ -25245,7 +25245,7 @@ function requireSummary () {
 		     * @returns step summary file path
 		     */
 		    filePath() {
-		        return __awaiter(this, undefined, undefined, function* () {
+		        return __awaiter(this, void 0, void 0, function* () {
 		            if (this._filePath) {
 		                return this._filePath;
 		            }
@@ -25289,8 +25289,8 @@ function requireSummary () {
 		     * @returns {Promise<Summary>} summary instance
 		     */
 		    write(options) {
-		        return __awaiter(this, undefined, undefined, function* () {
-		            const overwrite = !!(options === null || options === undefined ? undefined : options.overwrite);
+		        return __awaiter(this, void 0, void 0, function* () {
+		            const overwrite = !!(options === null || options === void 0 ? void 0 : options.overwrite);
 		            const filePath = yield this.filePath();
 		            const writeFunc = overwrite ? writeFile : appendFile;
 		            yield writeFunc(filePath, this._buffer, { encoding: 'utf8' });
@@ -25303,7 +25303,7 @@ function requireSummary () {
 		     * @returns {Summary} summary instance
 		     */
 		    clear() {
-		        return __awaiter(this, undefined, undefined, function* () {
+		        return __awaiter(this, void 0, void 0, function* () {
 		            return this.emptyBuffer().write({ overwrite: true });
 		        });
 		    }
@@ -25535,7 +25535,7 @@ function requirePathUtils () {
 	    return result;
 	};
 	Object.defineProperty(pathUtils, "__esModule", { value: true });
-	pathUtils.toPlatformPath = pathUtils.toWin32Path = pathUtils.toPosixPath = undefined;
+	pathUtils.toPlatformPath = pathUtils.toWin32Path = pathUtils.toPosixPath = void 0;
 	const path = __importStar(path__default);
 	/**
 	 * toPosixPath converts the given path to the posix form. On Windows, \\ will be
@@ -25621,7 +25621,7 @@ function requireIoUtil () {
 		};
 		var _a;
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = undefined;
+		exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
 		const fs = __importStar(fs__default);
 		const path = __importStar(path__default);
 		_a = fs.promises
@@ -25633,7 +25633,7 @@ function requireIoUtil () {
 		exports.UV_FS_O_EXLOCK = 0x10000000;
 		exports.READONLY = fs.constants.O_RDONLY;
 		function exists(fsPath) {
-		    return __awaiter(this, undefined, undefined, function* () {
+		    return __awaiter(this, void 0, void 0, function* () {
 		        try {
 		            yield exports.stat(fsPath);
 		        }
@@ -25648,7 +25648,7 @@ function requireIoUtil () {
 		}
 		exports.exists = exists;
 		function isDirectory(fsPath, useStat = false) {
-		    return __awaiter(this, undefined, undefined, function* () {
+		    return __awaiter(this, void 0, void 0, function* () {
 		        const stats = useStat ? yield exports.stat(fsPath) : yield exports.lstat(fsPath);
 		        return stats.isDirectory();
 		    });
@@ -25677,7 +25677,7 @@ function requireIoUtil () {
 		 * @return if file exists and is executable, returns the file path. otherwise empty string.
 		 */
 		function tryGetExecutablePath(filePath, extensions) {
-		    return __awaiter(this, undefined, undefined, function* () {
+		    return __awaiter(this, void 0, void 0, function* () {
 		        let stats = undefined;
 		        try {
 		            // test file exists
@@ -25769,7 +25769,7 @@ function requireIoUtil () {
 		// Get the path of cmd.exe in windows
 		function getCmdPath() {
 		    var _a;
-		    return (_a = process.env['COMSPEC']) !== null && _a !== undefined ? _a : `cmd.exe`;
+		    return (_a = process.env['COMSPEC']) !== null && _a !== void 0 ? _a : `cmd.exe`;
 		}
 		exports.getCmdPath = getCmdPath;
 		
@@ -25811,7 +25811,7 @@ function requireIo () {
 	    });
 	};
 	Object.defineProperty(io, "__esModule", { value: true });
-	io.findInPath = io.which = io.mkdirP = io.rmRF = io.mv = io.cp = undefined;
+	io.findInPath = io.which = io.mkdirP = io.rmRF = io.mv = io.cp = void 0;
 	const assert_1 = require$$0$5;
 	const path = __importStar(path__default);
 	const ioUtil = __importStar(requireIoUtil());
@@ -25824,7 +25824,7 @@ function requireIo () {
 	 * @param     options   optional. See CopyOptions.
 	 */
 	function cp(source, dest, options = {}) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        const { force, recursive, copySourceDirectory } = readCopyOptions(options);
 	        const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
 	        // Dest is an existing file, but not forcing
@@ -25865,7 +25865,7 @@ function requireIo () {
 	 * @param     options   optional. See MoveOptions.
 	 */
 	function mv(source, dest, options = {}) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        if (yield ioUtil.exists(dest)) {
 	            let destExists = true;
 	            if (yield ioUtil.isDirectory(dest)) {
@@ -25893,7 +25893,7 @@ function requireIo () {
 	 * @param inputPath path to remove
 	 */
 	function rmRF(inputPath) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        if (ioUtil.IS_WINDOWS) {
 	            // Check for invalid characters
 	            // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
@@ -25924,7 +25924,7 @@ function requireIo () {
 	 * @returns Promise<void>
 	 */
 	function mkdirP(fsPath) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        assert_1.ok(fsPath, 'a path argument must be provided');
 	        yield ioUtil.mkdir(fsPath, { recursive: true });
 	    });
@@ -25939,7 +25939,7 @@ function requireIo () {
 	 * @returns   Promise<string>   path to tool
 	 */
 	function which(tool, check) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        if (!tool) {
 	            throw new Error("parameter 'tool' is required");
 	        }
@@ -25970,7 +25970,7 @@ function requireIo () {
 	 * @returns   Promise<string[]>  the paths of the tool
 	 */
 	function findInPath(tool) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        if (!tool) {
 	            throw new Error("parameter 'tool' is required");
 	        }
@@ -26030,7 +26030,7 @@ function requireIo () {
 	    return { force, recursive, copySourceDirectory };
 	}
 	function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        // Ensure there is not a run away recursive copy
 	        if (currentDepth >= 255)
 	            return;
@@ -26055,7 +26055,7 @@ function requireIo () {
 	}
 	// Buffered file copy
 	function copyFile(srcFile, destFile, force) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        if ((yield ioUtil.lstat(srcFile)).isSymbolicLink()) {
 	            // unlink/re-link it
 	            try {
@@ -26117,7 +26117,7 @@ function requireToolrunner () {
 	    });
 	};
 	Object.defineProperty(toolrunner, "__esModule", { value: true });
-	toolrunner.argStringToArray = toolrunner.ToolRunner = undefined;
+	toolrunner.argStringToArray = toolrunner.ToolRunner = void 0;
 	const os = __importStar(require$$0$2);
 	const events = __importStar(require$$1);
 	const child = __importStar(require$$2$3);
@@ -26470,7 +26470,7 @@ function requireToolrunner () {
 	     * @returns   number
 	     */
 	    exec() {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            // root the tool path if it is unrooted and contains relative pathing
 	            if (!ioUtil.isRooted(this.toolPath) &&
 	                (this.toolPath.includes('/') ||
@@ -26481,7 +26481,7 @@ function requireToolrunner () {
 	            // if the tool is only a file name, then resolve it from the PATH
 	            // otherwise verify it exists (add extension on Windows if necessary)
 	            this.toolPath = yield io.which(this.toolPath, true);
-	            return new Promise((resolve, reject) => __awaiter(this, undefined, undefined, function* () {
+	            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
 	                this._debug(`exec tool: ${this.toolPath}`);
 	                this._debug('arguments:');
 	                for (const arg of this.args) {
@@ -26742,7 +26742,7 @@ function requireExec () {
 	    });
 	};
 	Object.defineProperty(exec, "__esModule", { value: true });
-	exec.getExecOutput = exec.exec = undefined;
+	exec.getExecOutput = exec.exec = void 0;
 	const string_decoder_1 = require$$6;
 	const tr = __importStar(requireToolrunner());
 	/**
@@ -26756,7 +26756,7 @@ function requireExec () {
 	 * @returns   Promise<number>    exit code
 	 */
 	function exec$1(commandLine, args, options) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        const commandArgs = tr.argStringToArray(commandLine);
 	        if (commandArgs.length === 0) {
 	            throw new Error(`Parameter 'commandLine' cannot be null or empty.`);
@@ -26781,14 +26781,14 @@ function requireExec () {
 	 */
 	function getExecOutput(commandLine, args, options) {
 	    var _a, _b;
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        let stdout = '';
 	        let stderr = '';
 	        //Using string decoder covers the case where a mult-byte character is split
 	        const stdoutDecoder = new string_decoder_1.StringDecoder('utf8');
 	        const stderrDecoder = new string_decoder_1.StringDecoder('utf8');
-	        const originalStdoutListener = (_a = options === null || options === undefined ? undefined : options.listeners) === null || _a === undefined ? undefined : _a.stdout;
-	        const originalStdErrListener = (_b = options === null || options === undefined ? undefined : options.listeners) === null || _b === undefined ? undefined : _b.stderr;
+	        const originalStdoutListener = (_a = options === null || options === void 0 ? void 0 : options.listeners) === null || _a === void 0 ? void 0 : _a.stdout;
+	        const originalStdErrListener = (_b = options === null || options === void 0 ? void 0 : options.listeners) === null || _b === void 0 ? void 0 : _b.stderr;
 	        const stdErrListener = (data) => {
 	            stderr += stderrDecoder.write(data);
 	            if (originalStdErrListener) {
@@ -26801,7 +26801,7 @@ function requireExec () {
 	                originalStdoutListener(data);
 	            }
 	        };
-	        const listeners = Object.assign(Object.assign({}, options === null || options === undefined ? undefined : options.listeners), { stdout: stdOutListener, stderr: stdErrListener });
+	        const listeners = Object.assign(Object.assign({}, options === null || options === void 0 ? void 0 : options.listeners), { stdout: stdOutListener, stderr: stdErrListener });
 	        const exitCode = yield exec$1(commandLine, args, Object.assign(Object.assign({}, options), { listeners }));
 	        //flush any remaining characters
 	        stdout += stdoutDecoder.end();
@@ -26860,10 +26860,10 @@ function requirePlatform () {
 		    return (mod && mod.__esModule) ? mod : { "default": mod };
 		};
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.getDetails = exports.isLinux = exports.isMacOS = exports.isWindows = exports.arch = exports.platform = undefined;
+		exports.getDetails = exports.isLinux = exports.isMacOS = exports.isWindows = exports.arch = exports.platform = void 0;
 		const os_1 = __importDefault(require$$0$2);
 		const exec = __importStar(requireExec());
-		const getWindowsInfo = () => __awaiter(undefined, undefined, undefined, function* () {
+		const getWindowsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
 		    const { stdout: version } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', undefined, {
 		        silent: true
 		    });
@@ -26875,19 +26875,19 @@ function requirePlatform () {
 		        version: version.trim()
 		    };
 		});
-		const getMacOsInfo = () => __awaiter(undefined, undefined, undefined, function* () {
+		const getMacOsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
 		    var _a, _b, _c, _d;
 		    const { stdout } = yield exec.getExecOutput('sw_vers', undefined, {
 		        silent: true
 		    });
-		    const version = (_b = (_a = stdout.match(/ProductVersion:\s*(.+)/)) === null || _a === undefined ? undefined : _a[1]) !== null && _b !== undefined ? _b : '';
-		    const name = (_d = (_c = stdout.match(/ProductName:\s*(.+)/)) === null || _c === undefined ? undefined : _c[1]) !== null && _d !== undefined ? _d : '';
+		    const version = (_b = (_a = stdout.match(/ProductVersion:\s*(.+)/)) === null || _a === void 0 ? void 0 : _a[1]) !== null && _b !== void 0 ? _b : '';
+		    const name = (_d = (_c = stdout.match(/ProductName:\s*(.+)/)) === null || _c === void 0 ? void 0 : _c[1]) !== null && _d !== void 0 ? _d : '';
 		    return {
 		        name,
 		        version
 		    };
 		});
-		const getLinuxInfo = () => __awaiter(undefined, undefined, undefined, function* () {
+		const getLinuxInfo = () => __awaiter(void 0, void 0, void 0, function* () {
 		    const { stdout } = yield exec.getExecOutput('lsb_release', ['-i', '-r', '-s'], {
 		        silent: true
 		    });
@@ -26903,7 +26903,7 @@ function requirePlatform () {
 		exports.isMacOS = exports.platform === 'darwin';
 		exports.isLinux = exports.platform === 'linux';
 		function getDetails() {
-		    return __awaiter(this, undefined, undefined, function* () {
+		    return __awaiter(this, void 0, void 0, function* () {
 		        return Object.assign(Object.assign({}, (yield (exports.isWindows
 		            ? getWindowsInfo()
 		            : exports.isMacOS
@@ -26960,7 +26960,7 @@ function requireCore$1 () {
 		    });
 		};
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.platform = exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = exports.markdownSummary = exports.summary = exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = undefined;
+		exports.platform = exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = exports.markdownSummary = exports.summary = exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
 		const command_1 = requireCommand();
 		const file_command_1 = requireFileCommand();
 		const utils_1 = requireUtils$2();
@@ -27201,7 +27201,7 @@ function requireCore$1 () {
 		 * @param fn The function to wrap in the group
 		 */
 		function group(name, fn) {
-		    return __awaiter(this, undefined, undefined, function* () {
+		    return __awaiter(this, void 0, void 0, function* () {
 		        startGroup(name);
 		        let result;
 		        try {
@@ -27243,7 +27243,7 @@ function requireCore$1 () {
 		}
 		exports.getState = getState;
 		function getIDToken(aud) {
-		    return __awaiter(this, undefined, undefined, function* () {
+		    return __awaiter(this, void 0, void 0, function* () {
 		        return yield oidc_utils_1.OidcClient.getIDToken(aud);
 		    });
 		}
@@ -36074,7 +36074,7 @@ function requireUtil$3 () {
 	util$3.isSymbol = isSymbol;
 
 	function isUndefined(arg) {
-	  return arg === undefined;
+	  return arg === void 0;
 	}
 	util$3.isUndefined = isUndefined;
 
@@ -37484,7 +37484,7 @@ function require_stream_readable () {
 
 	/*<replacement>*/
 	var debugUtil = require$$0$3;
-	var debug = undefined;
+	var debug = void 0;
 	if (debugUtil && debugUtil.debuglog) {
 	  debug = debugUtil.debuglog('stream');
 	} else {
@@ -50191,7 +50191,7 @@ function requireAssertValidPattern () {
 	if (hasRequiredAssertValidPattern) return assertValidPattern;
 	hasRequiredAssertValidPattern = 1;
 	Object.defineProperty(assertValidPattern, "__esModule", { value: true });
-	assertValidPattern.assertValidPattern = undefined;
+	assertValidPattern.assertValidPattern = void 0;
 	const MAX_PATTERN_LENGTH = 1024 * 64;
 	const assertValidPattern$1 = (pattern) => {
 	    if (typeof pattern !== 'string') {
@@ -50218,7 +50218,7 @@ function requireBraceExpressions () {
 	// translate the various posix character classes into unicode properties
 	// this works across all unicode locales
 	Object.defineProperty(braceExpressions, "__esModule", { value: true });
-	braceExpressions.parseClass = undefined;
+	braceExpressions.parseClass = void 0;
 	// { <posix class>: [<translation>, /u flag required, negated]
 	const posixClasses = {
 	    '[:alnum:]': ['\\p{L}\\p{Nl}\\p{Nd}', true],
@@ -50377,7 +50377,7 @@ function require_unescape () {
 	if (hasRequired_unescape) return _unescape;
 	hasRequired_unescape = 1;
 	Object.defineProperty(_unescape, "__esModule", { value: true });
-	_unescape.unescape = undefined;
+	_unescape.unescape = void 0;
 	/**
 	 * Un-escape a string that has been escaped with {@link escape}.
 	 *
@@ -50409,7 +50409,7 @@ function requireAst () {
 	hasRequiredAst = 1;
 	// parse a single path portion
 	Object.defineProperty(ast, "__esModule", { value: true });
-	ast.AST = undefined;
+	ast.AST = void 0;
 	const brace_expressions_js_1 = requireBraceExpressions();
 	const unescape_js_1 = require_unescape();
 	const types = new Set(['!', '?', '+', '*', '@']);
@@ -51009,7 +51009,7 @@ function require_escape () {
 	if (hasRequired_escape) return _escape;
 	hasRequired_escape = 1;
 	Object.defineProperty(_escape, "__esModule", { value: true });
-	_escape.escape = undefined;
+	_escape.escape = void 0;
 	/**
 	 * Escape all magic characters in a glob pattern.
 	 *
@@ -51042,7 +51042,7 @@ function requireCommonjs$4 () {
 		    return (mod && mod.__esModule) ? mod : { "default": mod };
 		};
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.unescape = exports.escape = exports.AST = exports.Minimatch = exports.match = exports.makeRe = exports.braceExpand = exports.defaults = exports.filter = exports.GLOBSTAR = exports.sep = exports.minimatch = undefined;
+		exports.unescape = exports.escape = exports.AST = exports.Minimatch = exports.match = exports.makeRe = exports.braceExpand = exports.defaults = exports.filter = exports.GLOBSTAR = exports.sep = exports.minimatch = void 0;
 		const brace_expansion_1 = __importDefault(requireBraceExpansion$1());
 		const assert_valid_pattern_js_1 = requireAssertValidPattern();
 		const ast_js_1 = requireAst();
@@ -52073,7 +52073,7 @@ function requireCommonjs$3 () {
 	 * @module LRUCache
 	 */
 	Object.defineProperty(commonjs$1, "__esModule", { value: true });
-	commonjs$1.LRUCache = undefined;
+	commonjs$1.LRUCache = void 0;
 	const perf = typeof performance === 'object' &&
 	    performance &&
 	    typeof performance.now === 'function'
@@ -53628,7 +53628,7 @@ function requireCommonjs$2 () {
 		    return (mod && mod.__esModule) ? mod : { "default": mod };
 		};
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.Minipass = exports.isWritable = exports.isReadable = exports.isStream = undefined;
+		exports.Minipass = exports.isWritable = exports.isReadable = exports.isStream = void 0;
 		const proc = typeof process === 'object' && process
 		    ? process
 		    : {
@@ -54684,7 +54684,7 @@ function requireCommonjs$1 () {
 	    return result;
 	};
 	Object.defineProperty(commonjs$2, "__esModule", { value: true });
-	commonjs$2.PathScurry = commonjs$2.Path = commonjs$2.PathScurryDarwin = commonjs$2.PathScurryPosix = commonjs$2.PathScurryWin32 = commonjs$2.PathScurryBase = commonjs$2.PathPosix = commonjs$2.PathWin32 = commonjs$2.PathBase = commonjs$2.ChildrenCache = commonjs$2.ResolveCache = undefined;
+	commonjs$2.PathScurry = commonjs$2.Path = commonjs$2.PathScurryDarwin = commonjs$2.PathScurryPosix = commonjs$2.PathScurryWin32 = commonjs$2.PathScurryBase = commonjs$2.PathPosix = commonjs$2.PathWin32 = commonjs$2.PathBase = commonjs$2.ChildrenCache = commonjs$2.ResolveCache = void 0;
 	const lru_cache_1 = /*@__PURE__*/ requireCommonjs$3();
 	const node_path_1 = require$$1$5;
 	const node_url_1 = require$$2$5;
@@ -56685,7 +56685,7 @@ function requirePattern () {
 	hasRequiredPattern = 1;
 	// this is just a very light wrapper around 2 arrays with an offset index
 	Object.defineProperty(pattern, "__esModule", { value: true });
-	pattern.Pattern = undefined;
+	pattern.Pattern = void 0;
 	const minimatch_1 = requireCommonjs$4();
 	const isPatternList = (pl) => pl.length >= 1;
 	const isGlobList = (gl) => gl.length >= 1;
@@ -56918,7 +56918,7 @@ function requireIgnore () {
 	// Ignoring a path ignores its children if the pattern ends in /**
 	// Ignores are always parsed in dot:true mode
 	Object.defineProperty(ignore, "__esModule", { value: true });
-	ignore.Ignore = undefined;
+	ignore.Ignore = void 0;
 	const minimatch_1 = requireCommonjs$4();
 	const pattern_js_1 = requirePattern();
 	const defaultPlatform = (typeof process === 'object' &&
@@ -57043,7 +57043,7 @@ function requireProcessor () {
 	hasRequiredProcessor = 1;
 	// synchronous utility for filtering entries and calculating subwalks
 	Object.defineProperty(processor, "__esModule", { value: true });
-	processor.Processor = processor.SubWalks = processor.MatchRecord = processor.HasWalkedCache = undefined;
+	processor.Processor = processor.SubWalks = processor.MatchRecord = processor.HasWalkedCache = void 0;
 	const minimatch_1 = requireCommonjs$4();
 	/**
 	 * A cache of which patterns have been processed for a given Path
@@ -57350,7 +57350,7 @@ function requireWalker () {
 	if (hasRequiredWalker) return walker;
 	hasRequiredWalker = 1;
 	Object.defineProperty(walker, "__esModule", { value: true });
-	walker.GlobStream = walker.GlobWalker = walker.GlobUtil = undefined;
+	walker.GlobStream = walker.GlobWalker = walker.GlobUtil = void 0;
 	/**
 	 * Single-use utility classes to provide functionality to the {@link Glob}
 	 * methods.
@@ -57744,7 +57744,7 @@ function requireGlob$1 () {
 	if (hasRequiredGlob$1) return glob$1;
 	hasRequiredGlob$1 = 1;
 	Object.defineProperty(glob$1, "__esModule", { value: true });
-	glob$1.Glob = undefined;
+	glob$1.Glob = void 0;
 	const minimatch_1 = requireCommonjs$4();
 	const node_url_1 = require$$2$5;
 	const path_scurry_1 = requireCommonjs$1();
@@ -58000,7 +58000,7 @@ function requireHasMagic () {
 	if (hasRequiredHasMagic) return hasMagic;
 	hasRequiredHasMagic = 1;
 	Object.defineProperty(hasMagic, "__esModule", { value: true });
-	hasMagic.hasMagic = undefined;
+	hasMagic.hasMagic = void 0;
 	const minimatch_1 = requireCommonjs$4();
 	/**
 	 * Return true if the patterns provided contain any magic glob characters,
@@ -58035,7 +58035,7 @@ function requireCommonjs () {
 	hasRequiredCommonjs = 1;
 	(function (exports) {
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.glob = exports.sync = exports.iterate = exports.iterateSync = exports.stream = exports.streamSync = exports.Ignore = exports.hasMagic = exports.Glob = exports.unescape = exports.escape = undefined;
+		exports.glob = exports.sync = exports.iterate = exports.iterateSync = exports.stream = exports.streamSync = exports.Ignore = exports.hasMagic = exports.Glob = exports.unescape = exports.escape = void 0;
 		exports.globStreamSync = globStreamSync;
 		exports.globStream = globStream;
 		exports.globSync = globSync;
@@ -65186,7 +65186,7 @@ function requireInternalGlobOptionsHelper () {
 	    return result;
 	};
 	Object.defineProperty(internalGlobOptionsHelper, "__esModule", { value: true });
-	internalGlobOptionsHelper.getOptions = undefined;
+	internalGlobOptionsHelper.getOptions = void 0;
 	const core = __importStar(requireCore$1());
 	/**
 	 * Returns a copy with defaults filled in.
@@ -65264,7 +65264,7 @@ function requireInternalPathHelper () {
 	    return (mod && mod.__esModule) ? mod : { "default": mod };
 	};
 	Object.defineProperty(internalPathHelper, "__esModule", { value: true });
-	internalPathHelper.safeTrimTrailingSeparator = internalPathHelper.normalizeSeparators = internalPathHelper.hasRoot = internalPathHelper.hasAbsoluteRoot = internalPathHelper.ensureAbsoluteRoot = internalPathHelper.dirname = undefined;
+	internalPathHelper.safeTrimTrailingSeparator = internalPathHelper.normalizeSeparators = internalPathHelper.hasRoot = internalPathHelper.hasAbsoluteRoot = internalPathHelper.ensureAbsoluteRoot = internalPathHelper.dirname = void 0;
 	const path = __importStar(path__default);
 	const assert_1 = __importDefault(require$$0$5);
 	const IS_WINDOWS = process.platform === 'win32';
@@ -65447,7 +65447,7 @@ function requireInternalMatchKind () {
 	if (hasRequiredInternalMatchKind) return internalMatchKind;
 	hasRequiredInternalMatchKind = 1;
 	Object.defineProperty(internalMatchKind, "__esModule", { value: true });
-	internalMatchKind.MatchKind = undefined;
+	internalMatchKind.MatchKind = void 0;
 	/**
 	 * Indicates whether a pattern matches a path
 	 */
@@ -65495,7 +65495,7 @@ function requireInternalPatternHelper () {
 	    return result;
 	};
 	Object.defineProperty(internalPatternHelper, "__esModule", { value: true });
-	internalPatternHelper.partialMatch = internalPatternHelper.match = internalPatternHelper.getSearchPaths = undefined;
+	internalPatternHelper.partialMatch = internalPatternHelper.match = internalPatternHelper.getSearchPaths = void 0;
 	const pathHelper = __importStar(requireInternalPathHelper());
 	const internal_match_kind_1 = requireInternalMatchKind();
 	const IS_WINDOWS = process.platform === 'win32';
@@ -66790,7 +66790,7 @@ function requireInternalPath () {
 	    return (mod && mod.__esModule) ? mod : { "default": mod };
 	};
 	Object.defineProperty(internalPath, "__esModule", { value: true });
-	internalPath.Path = undefined;
+	internalPath.Path = void 0;
 	const path = __importStar(path__default);
 	const pathHelper = __importStar(requireInternalPathHelper());
 	const assert_1 = __importDefault(require$$0$5);
@@ -66914,7 +66914,7 @@ function requireInternalPattern () {
 	    return (mod && mod.__esModule) ? mod : { "default": mod };
 	};
 	Object.defineProperty(internalPattern, "__esModule", { value: true });
-	internalPattern.Pattern = undefined;
+	internalPattern.Pattern = void 0;
 	const os = __importStar(require$$0$2);
 	const path = __importStar(path__default);
 	const pathHelper = __importStar(requireInternalPathHelper());
@@ -67156,7 +67156,7 @@ function requireInternalSearchState () {
 	if (hasRequiredInternalSearchState) return internalSearchState;
 	hasRequiredInternalSearchState = 1;
 	Object.defineProperty(internalSearchState, "__esModule", { value: true });
-	internalSearchState.SearchState = undefined;
+	internalSearchState.SearchState = void 0;
 	class SearchState {
 	    constructor(path, level) {
 	        this.path = path;
@@ -67225,7 +67225,7 @@ function requireInternalGlobber () {
 	    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 	};
 	Object.defineProperty(internalGlobber, "__esModule", { value: true });
-	internalGlobber.DefaultGlobber = undefined;
+	internalGlobber.DefaultGlobber = void 0;
 	const core = __importStar(requireCore$1());
 	const fs = __importStar(fs__default);
 	const globOptionsHelper = __importStar(requireInternalGlobOptionsHelper());
@@ -67247,7 +67247,7 @@ function requireInternalGlobber () {
 	    }
 	    glob() {
 	        var _a, e_1, _b, _c;
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            const result = [];
 	            try {
 	                for (var _d = true, _e = __asyncValues(this.globGenerator()), _f; _f = yield _e.next(), _a = _f.done, !_a; _d = true) {
@@ -67348,7 +67348,7 @@ function requireInternalGlobber () {
 	     * Constructs a DefaultGlobber
 	     */
 	    static create(patterns, options) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            const result = new DefaultGlobber(options);
 	            if (IS_WINDOWS) {
 	                patterns = patterns.replace(/\r\n/g, '\n');
@@ -67370,7 +67370,7 @@ function requireInternalGlobber () {
 	        });
 	    }
 	    static stat(item, options, traversalChain) {
-	        return __awaiter(this, undefined, undefined, function* () {
+	        return __awaiter(this, void 0, void 0, function* () {
 	            // Note:
 	            // `stat` returns info about the target of a symlink (or symlink chain)
 	            // `lstat` returns info about a symlink itself
@@ -67467,7 +67467,7 @@ function requireInternalHashFiles () {
 	    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 	};
 	Object.defineProperty(internalHashFiles, "__esModule", { value: true });
-	internalHashFiles.hashFiles = undefined;
+	internalHashFiles.hashFiles = void 0;
 	const crypto = __importStar(require$$0__default);
 	const core = __importStar(requireCore$1());
 	const fs = __importStar(fs__default);
@@ -67477,12 +67477,12 @@ function requireInternalHashFiles () {
 	function hashFiles(globber, currentWorkspace, verbose = false) {
 	    var _a, e_1, _b, _c;
 	    var _d;
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        const writeDelegate = verbose ? core.info : core.debug;
 	        let hasMatch = false;
 	        const githubWorkspace = currentWorkspace
 	            ? currentWorkspace
-	            : (_d = process.env['GITHUB_WORKSPACE']) !== null && _d !== undefined ? _d : process.cwd();
+	            : (_d = process.env['GITHUB_WORKSPACE']) !== null && _d !== void 0 ? _d : process.cwd();
 	        const result = crypto.createHash('sha256');
 	        let count = 0;
 	        try {
@@ -67547,7 +67547,7 @@ function requireGlob () {
 	    });
 	};
 	Object.defineProperty(glob, "__esModule", { value: true });
-	glob.hashFiles = glob.create = undefined;
+	glob.hashFiles = glob.create = void 0;
 	const internal_globber_1 = requireInternalGlobber();
 	const internal_hash_files_1 = requireInternalHashFiles();
 	/**
@@ -67557,7 +67557,7 @@ function requireGlob () {
 	 * @param options   Glob options
 	 */
 	function create(patterns, options) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        return yield internal_globber_1.DefaultGlobber.create(patterns, options);
 	    });
 	}
@@ -67571,7 +67571,7 @@ function requireGlob () {
 	 * @param verbose   Enables verbose logging
 	 */
 	function hashFiles(patterns, currentWorkspace = '', options, verbose = false) {
-	    return __awaiter(this, undefined, undefined, function* () {
+	    return __awaiter(this, void 0, void 0, function* () {
 	        let followSymbolicLinks = true;
 	        if (options && typeof options.followSymbolicLinks === 'boolean') {
 	            followSymbolicLinks = options.followSymbolicLinks;
