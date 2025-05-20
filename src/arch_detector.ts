@@ -24,7 +24,7 @@ export class ArchDetector {
       // "[x86_64:Mach-O 64-bit executable x86_64]" or "[arm64]"
       const archMatches = firstLine.match(/\[(?:\\012- )?(\w+)(?:[:\]])/g)
       if (archMatches) {
-        archMatches.forEach(match => {
+        archMatches.forEach((match) => {
           const arch = match.match(/\[(?:\\012- )?(\w+)(?:[:\]])/)?.[1]
           if (arch) {
             architectures.push(arch)
