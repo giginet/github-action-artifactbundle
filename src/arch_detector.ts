@@ -20,11 +20,12 @@ export class ArchDetector {
     // First line contains the summary with all architectures
     const firstLine = lines[0]
     if (firstLine.includes('Mach-O universal binary')) {
-      // Extract architectures from the first line, handling Linux format
-      const archMatches = firstLine.match(/\[(?:\\012- )?(\w+):/g)
+      // Extract architectures from the first line, handling cases like
+      // "[x86_64:Mach-O 64-bit executable x86_64]" or "[arm64]"
+      const archMatches = firstLine.match(/\[(?:\\012- )?(\w+)(?:[:\]])/g)
       if (archMatches) {
-        archMatches.forEach((match) => {
-          const arch = match.match(/(?:\\012- )?(\w+):/)?.[1]
+        archMatches.forEach(match => {
+          const arch = match.match(/\[(?:\\012- )?(\w+)(?:[:\]])/)?.[1]
           if (arch) {
             architectures.push(arch)
           }

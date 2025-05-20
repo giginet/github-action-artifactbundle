@@ -60,7 +60,7 @@ describe('ExecutableCollector', () => {
   })
 
   it('should collect executables from apple directory with multiple architectures', async () => {
-    const executablePath = '.build/apple/Products/release/myExecutable'
+    const executablePath = '.build/apple/Products/Release/myExecutable'
     const mockGlobber = new MockGlobber()
     mockGlobber.glob.mockImplementation(() => {
       return Promise.resolve([executablePath])
@@ -79,6 +79,23 @@ describe('ExecutableCollector', () => {
         'arm64-apple-macosx',
         'x86_64-apple-macosx'
       ])
+    )
+  })
+
+  it('should capitalize configuration for apple directory', async () => {
+    const executablePath = '.build/apple/Products/Release/myExecutable'
+    const mockGlobber = new MockGlobber()
+    mockGlobber.glob.mockResolvedValue([executablePath])
+    glob.create.mockResolvedValue(mockGlobber)
+    jest
+      .spyOn(ArchDetector.prototype, 'detectArch')
+      .mockResolvedValue(['arm64'])
+
+    const collector = new ExecutableCollector('myExecutable')
+    await collector.collect('release')
+
+    expect(glob.create).toHaveBeenCalledWith(
+      expect.stringContaining('apple/Products/Release')
     )
   })
 

@@ -12,7 +12,7 @@ describe('ArchDetector', () => {
   })
 
   it('should detect architectures from universal binary', async () => {
-    const mockOutput = `.build/apple/Products/Release/myexecutable: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64:Mach-O 64-bit executable arm64]
+    const mockOutput = `.build/apple/Products/Release/myexecutable: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64]
 .build/apple/Products/Release/myexecutable (for architecture x86_64):   Mach-O 64-bit executable x86_64
 .build/apple/Products/Release/myexecutable (for architecture arm64):    Mach-O 64-bit executable arm64`
 
