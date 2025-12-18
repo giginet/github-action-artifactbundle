@@ -307,11 +307,13 @@ describe('main', () => {
     const macosPlatformDir = platformDirs.find((dir) =>
       path.basename(dir).endsWith('macos')
     )
-    expect(macosPlatformDir).toBeDefined()
+    if (!macosPlatformDir) {
+      throw new Error('macos platform directory not found')
+    }
 
     // Verify universal triple directory exists
     const universalTripleDir = path.join(
-      macosPlatformDir!,
+      macosPlatformDir,
       'universal-apple-macosx'
     )
     expect(fs.existsSync(universalTripleDir)).toBeTruthy()
@@ -322,8 +324,8 @@ describe('main', () => {
 
     // Verify only universal variant exists (no single-arch variants)
     const tripleDirs = fs
-      .readdirSync(macosPlatformDir!)
-      .filter((f) => fs.statSync(path.join(macosPlatformDir!, f)).isDirectory())
+      .readdirSync(macosPlatformDir)
+      .filter((f) => fs.statSync(path.join(macosPlatformDir, f)).isDirectory())
     expect(tripleDirs).toEqual(['universal-apple-macosx'])
 
     // Verify resource bundle is included in universal variant
