@@ -190,12 +190,21 @@ describe('main', () => {
         expect(fs.existsSync(binDir)).toBeTruthy()
 
         const executablePath = path.join(binDir, 'mytool-with-resource')
-        const bundlePath = path.join(
+        const resourceBundlePath = path.join(
           binDir,
           'mytool-with-resource_mytool-with-resource.bundle'
         )
         expect(fs.existsSync(executablePath)).toBeTruthy()
-        expect(fs.existsSync(bundlePath)).toBeTruthy()
+        expect(fs.existsSync(resourceBundlePath)).toBeTruthy()
+
+        // Verify resource bundle contents are copied correctly
+        expect(fs.statSync(resourceBundlePath).isDirectory()).toBeTruthy()
+        const resourceBundleContents = fs.readdirSync(resourceBundlePath)
+        expect(resourceBundleContents).toContain('note.txt')
+
+        // Verify the file content is preserved
+        const noteFilePath = path.join(resourceBundlePath, 'note.txt')
+        expect(fs.existsSync(noteFilePath)).toBeTruthy()
       }
     }
   })
@@ -298,11 +307,13 @@ describe('main', () => {
     const macosPlatformDir = platformDirs.find((dir) =>
       path.basename(dir).endsWith('macos')
     )
-    expect(macosPlatformDir).toBeDefined()
+    if (!macosPlatformDir) {
+      throw new Error('macos platform directory not found')
+    }
 
     // Verify universal triple directory exists
     const universalTripleDir = path.join(
-      macosPlatformDir!,
+      macosPlatformDir,
       'universal-apple-macosx'
     )
     expect(fs.existsSync(universalTripleDir)).toBeTruthy()
@@ -310,6 +321,21 @@ describe('main', () => {
     // Verify executable exists in the universal triple directory
     const executablePath = path.join(universalTripleDir, 'bin', 'myexecutable')
     expect(fs.existsSync(executablePath)).toBeTruthy()
+
+    // Verify only universal variant exists (no single-arch variants)
+    const tripleDirs = fs
+      .readdirSync(macosPlatformDir)
+      .filter((f) => fs.statSync(path.join(macosPlatformDir, f)).isDirectory())
+    expect(tripleDirs).toEqual(['universal-apple-macosx'])
+
+    // Verify resource bundle is included in universal variant
+    const resourceBundlePath = path.join(
+      universalTripleDir,
+      'bin',
+      'myexecutable_myexecutable.bundle'
+    )
+    expect(fs.existsSync(resourceBundlePath)).toBeTruthy()
+    expect(fs.statSync(resourceBundlePath).isDirectory()).toBeTruthy()
   })
 
   it('should fail when configuration is not provided', async () => {

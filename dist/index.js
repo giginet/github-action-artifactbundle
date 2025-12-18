@@ -68233,7 +68233,21 @@ class ExecutableCollector {
                 executables.push(new Executable(file, triples));
             }
         }
-        return executables;
+        // Filter out single-arch variants that are already covered by Universal binaries
+        const universalTriples = new Set();
+        for (const exe of executables) {
+            if (exe.getTriples().length > 1) {
+                for (const triple of exe.getTriples()) {
+                    universalTriples.add(triple);
+                }
+            }
+        }
+        return executables.filter((exe) => {
+            const triples = exe.getTriples();
+            if (triples.length > 1)
+                return true;
+            return !universalTriples.has(triples[0]);
+        });
     }
 }
 
